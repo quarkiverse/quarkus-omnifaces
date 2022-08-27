@@ -50,8 +50,6 @@ class OmnifacesProcessor {
 
     private static final Class[] BEAN_CLASSES = {
             EagerBeansRepository.class,
-            EagerExtension.class,
-            ParamExtension.class,
             ValidatorManager.class,
             ViewScopeManager.class,
             ConverterManager.class
