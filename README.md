@@ -13,13 +13,10 @@ This project is a Quarkus extension that lets you utilize [OmniFaces](https://om
 
 This extension was previously written by the AdminFaces team and hosted [here](https://github.com/adminfaces/quarkus-omnifaces).
 
-## Documentation
+## Showcase
 
-The documentation for this extension should be maintained as part of this repository and it is stored in the `docs/` directory.
-
-The layout should follow the [Antora's Standard File and Directory Set](https://docs.antora.org/antora/2.3/standard-directories/).
-
-Once the docs are ready to be published, please open a PR including this repository in the [Quarkiverse Docs Antora playbook](https://github.com/quarkiverse/quarkiverse-docs/blob/main/antora-playbook.yml#L7). See an example [here](https://github.com/quarkiverse/quarkiverse-docs/pull/1).
+A showcase example using Quarkus OmniFaces and showing Faces running in the Quarkus environment can be found on
+the [QuarkusFaces](https://github.com/melloware/quarkus-faces) GitHub repository "where Quarkus meets JSF!".
 
 ## Contributors ✨
 
