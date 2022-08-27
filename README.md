@@ -12,7 +12,7 @@
 
 ## Overview
 
-This project is a Quarkus extension that lets you utilize [OmniFaces](https://omnifaces.org/) library to make JSF development so much easier!
+A Quarkus extension that lets you utilize [OmniFaces](https://omnifaces.org/) library to make JSF development so much easier!
 
 This extension was previously written by the AdminFaces team and hosted [here](https://github.com/adminfaces/quarkus-omnifaces).
 
