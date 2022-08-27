@@ -1,10 +1,17 @@
 package io.quarkiverse.omnifaces.deployment;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.myfaces.cdi.view.ViewScopeBeanHolder;
+import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
+import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
+import org.jboss.logging.Logger;
 import org.omnifaces.cdi.ContextParam;
 import org.omnifaces.cdi.Cookie;
 import org.omnifaces.cdi.Eager;
@@ -16,17 +23,19 @@ import org.omnifaces.cdi.Startup;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.cdi.converter.ConverterManager;
 import org.omnifaces.cdi.eager.EagerBeansRepository;
-import org.omnifaces.cdi.eager.EagerExtension;
-import org.omnifaces.cdi.param.ParamExtension;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
 
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
+import io.quarkus.arc.deployment.AnnotationsTransformerBuildItem;
+import io.quarkus.arc.deployment.BeanArchiveIndexBuildItem;
 import io.quarkus.arc.deployment.BeanDefiningAnnotationBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem.ContextConfiguratorBuildItem;
+import io.quarkus.arc.deployment.CustomScopeAnnotationsBuildItem;
 import io.quarkus.arc.deployment.CustomScopeBuildItem;
+import io.quarkus.arc.processor.AnnotationsTransformer;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
@@ -46,7 +55,11 @@ import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
 
 class OmnifacesProcessor {
 
+    private static final Logger LOGGER = Logger.getLogger("OmnifacesProcessor");
+
     private static final String FEATURE = "omnifaces";
+    static final DotName OMNIFACES_STARTUP = DotName.createSimple(Startup.class.getName());
+    static final DotName OMNIFACES_EAGER = DotName.createSimple(Eager.class.getName());
 
     private static final Class[] BEAN_CLASSES = {
             EagerBeansRepository.class,
@@ -218,6 +231,35 @@ class OmnifacesProcessor {
         if (LaunchMode.DEVELOPMENT.getDefaultProfile().equals(ProfileManager.getActiveProfile())) {
             initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
         }
+    }
+
+    @BuildStep
+    AnnotationsTransformerBuildItem transformBeanScope(BeanArchiveIndexBuildItem index,
+            CustomScopeAnnotationsBuildItem scopes) {
+        return new AnnotationsTransformerBuildItem(new AnnotationsTransformer() {
+            @Override
+            public boolean appliesTo(AnnotationTarget.Kind kind) {
+                return kind == org.jboss.jandex.AnnotationTarget.Kind.CLASS;
+            }
+
+            @Override
+            public void transform(AnnotationsTransformer.TransformationContext ctx) {
+                if (ctx.isClass()) {
+                    ClassInfo clazz = ctx.getTarget().asClass();
+                    Map<DotName, List<AnnotationInstance>> annotations = clazz.annotationsMap();
+                    if (annotations.containsKey(OMNIFACES_STARTUP)) {
+                        LOGGER.infof("OmniFaces found @%s annotations on a class %s - adding @ApplicationScoped",
+                                OMNIFACES_STARTUP, ctx.getTarget());
+                        ctx.transform().add(ApplicationScoped.class).done();
+                    }
+                    if (annotations.containsKey(OMNIFACES_EAGER) || annotations.containsKey(OMNIFACES_STARTUP)) {
+                        LOGGER.infof("OmniFaces found @Eager annotations on a class %s - adding @io.quarkus.runtime.Startup",
+                                ctx.getTarget());
+                        ctx.transform().add(io.quarkus.runtime.Startup.class).done();
+                    }
+                }
+            }
+        });
     }
 
 }
