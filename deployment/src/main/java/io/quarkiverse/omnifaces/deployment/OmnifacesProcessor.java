@@ -2,7 +2,16 @@ package io.quarkiverse.omnifaces.deployment;
 
 import java.io.IOException;
 
+import org.jboss.jandex.AnnotationTarget;
 import org.jboss.jandex.DotName;
+import org.omnifaces.cdi.ContextParam;
+import org.omnifaces.cdi.Cookie;
+import org.omnifaces.cdi.Eager;
+import org.omnifaces.cdi.GraphicImageBean;
+import org.omnifaces.cdi.Param;
+import org.omnifaces.cdi.PostScriptParam;
+import org.omnifaces.cdi.Push;
+import org.omnifaces.cdi.Startup;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.cdi.converter.ConverterManager;
 import org.omnifaces.cdi.eager.EagerBeansRepository;
@@ -17,10 +26,13 @@ import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem.ContextConfig
 import io.quarkus.arc.deployment.CustomScopeBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
+import io.quarkus.deployment.annotations.ExecutionTime;
+import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageConfigBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
+import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
 import io.quarkus.runtime.LaunchMode;
 import io.quarkus.runtime.configuration.ProfileManager;
@@ -37,6 +49,18 @@ class OmnifacesProcessor {
             ConverterManager.class
     };
 
+    private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {
+
+            ContextParam.class.getName(),
+            Cookie.class.getName(),
+            Eager.class.getName(),
+            GraphicImageBean.class.getName(),
+            Param.class.getName(),
+            PostScriptParam.class.getName(),
+            Push.class.getName(),
+            Startup.class.getName()
+    };
+
     @BuildStep
     FeatureBuildItem feature() {
         return new FeatureBuildItem(FEATURE);
@@ -47,6 +71,10 @@ class OmnifacesProcessor {
             BuildProducer<BeanDefiningAnnotationBuildItem> beanDefiningAnnotation) throws IOException {
         for (Class<?> clazz : BEAN_CLASSES) {
             additionalBean.produce(AdditionalBeanBuildItem.unremovableOf(clazz));
+        }
+
+        for (String clazz : BEAN_DEFINING_ANNOTATION_CLASSES) {
+            beanDefiningAnnotation.produce(new BeanDefiningAnnotationBuildItem(DotName.createSimple(clazz)));
         }
     }
 
@@ -59,6 +87,23 @@ class OmnifacesProcessor {
     @BuildStep
     CustomScopeBuildItem viewScoped() {
         return new CustomScopeBuildItem(DotName.createSimple(ViewScoped.class.getName()));
+    }
+
+    @BuildStep
+    @Record(ExecutionTime.STATIC_INIT)
+    void buildAnnotationProviderIntegration(OmniFacesRecorder recorder, CombinedIndexBuildItem combinedIndex)
+            throws IOException {
+        for (String clazz : BEAN_DEFINING_ANNOTATION_CLASSES) {
+            combinedIndex.getIndex()
+                    .getAnnotations(DotName.createSimple(clazz))
+                    .stream()
+                    .forEach(annotation -> {
+                        if (annotation.target().kind() == AnnotationTarget.Kind.CLASS) {
+                            recorder.registerAnnotatedClass(annotation.name().toString(),
+                                    annotation.target().asClass().name().toString());
+                        }
+                    });
+        }
     }
 
     @BuildStep
@@ -82,6 +127,12 @@ class OmnifacesProcessor {
         // Register org.omnifaces.config.WebXmlSingleton to be initialized at runtime, it uses a static code
         NativeImageConfigBuildItem.Builder builder = NativeImageConfigBuildItem.builder();
         builder.addRuntimeInitializedClass("org.omnifaces.config.WebXmlSingleton");
+
+        // being fixed in MyFaces 2.3-M8
+        builder.addRuntimeInitializedClass("org.apache.myfaces.cdi.view.ViewScopeBeanHolder");
+
+        // PrimeFaces needs POI
+        builder.addRuntimeInitializedClass("org.apache.poi.util.RandomSingleton");
 
         return builder.build();
     }
