@@ -31,6 +31,7 @@ import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
 import io.quarkus.deployment.annotations.Record;
+import io.quarkus.deployment.builditem.AdditionalApplicationArchiveMarkerBuildItem;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageConfigBuildItem;
@@ -98,6 +99,12 @@ class OmnifacesProcessor {
     }
 
     @BuildStep
+    void produceApplicationArchiveMarker(
+            BuildProducer<AdditionalApplicationArchiveMarkerBuildItem> additionalArchiveMarkers) {
+        additionalArchiveMarkers.produce(new AdditionalApplicationArchiveMarkerBuildItem("org/omnifaces/component"));
+    }
+
+    @BuildStep
     @Record(ExecutionTime.STATIC_INIT)
     void buildAnnotationProviderIntegration(OmniFacesRecorder recorder, CombinedIndexBuildItem combinedIndex)
             throws IOException {
@@ -121,16 +128,54 @@ class OmnifacesProcessor {
         //most of the classes registered for reflection below are used in OmniFaces functions (omnifaces-functions.taglib.xml)
         //myfaces (org.apache.myfaces.view.facelets.compiler.TagLibraryConfig.create) uses reflection to register facelets functions
         reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, "java.util.Set",
-                "java.util.List", "java.lang.Iterable", "java.util.Collection", "java.lang.Throwable",
+                "java.util.List",
+                "java.lang.Iterable",
+                "java.util.Collection",
+                "java.lang.Throwable",
                 "java.util.Date",
-                "java.util.Calendar", "java.time.LocalDate", "java.time.LocalDateTime", "java.lang.Integer",
-                "java.lang.Long", "java.lang.Double", "java.lang.String", "java.lang.Number"));
+                "java.util.Calendar",
+                "java.time.LocalDate",
+                "java.time.LocalDateTime",
+                "java.lang.Integer",
+                "java.lang.Long",
+                "java.lang.Double",
+                "java.lang.String",
+                "java.lang.Number"));
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(true, false,
-                "org.omnifaces.el.functions.Strings", "org.omnifaces.el.functions.Arrays",
-                "org.omnifaces.el.functions.Components", "org.omnifaces.el.functions.Dates",
-                "org.omnifaces.el.functions.Numbers", "org.omnifaces.el.functions.Objects",
-                "org.omnifaces.el.functions.Converters", "org.omnifaces.util.Faces",
+                "org.omnifaces.el.functions.Strings",
+                "org.omnifaces.el.functions.Arrays",
+                "org.omnifaces.el.functions.Components",
+                "org.omnifaces.el.functions.Dates",
+                "org.omnifaces.el.functions.Numbers",
+                "org.omnifaces.el.functions.Objects",
+                "org.omnifaces.el.functions.Converters",
+                "org.omnifaces.util.Ajax",
+                "org.omnifaces.util.Beans",
+                "org.omnifaces.util.BeansLocal",
+                "org.omnifaces.util.Callback",
+                "org.omnifaces.util.Components",
+                "org.omnifaces.util.Events",
+                "org.omnifaces.util.Exceptions",
+                "org.omnifaces.util.Facelets",
+                "org.omnifaces.util.Faces",
+                "org.omnifaces.util.FacesLocal",
+                "org.omnifaces.util.Hacks",
+                "org.omnifaces.util.JNDI",
+                "org.omnifaces.util.JNDIObjectLocator",
+                "org.omnifaces.util.Json",
+                "org.omnifaces.util.Lazy",
+                "org.omnifaces.util.MapWrapper",
+                "org.omnifaces.util.Messages",
+                "org.omnifaces.util.Platform",
+                "org.omnifaces.util.Reflection",
+                "org.omnifaces.util.Renderers",
+                "org.omnifaces.util.ResourcePaths",
+                "org.omnifaces.util.Servlets",
+                "org.omnifaces.util.State",
+                "org.omnifaces.util.Utils",
+                "org.omnifaces.util.Validators",
+                "org.omnifaces.util.Xml",
                 "org.primefaces.util.ComponentUtils",
                 "org.apache.myfaces.renderkit.html.HtmlResponseStateManager",
                 "org.primefaces.extensions.util.ComponentUtils"));
@@ -165,7 +210,7 @@ class OmnifacesProcessor {
                 "META-INF/resources/omnifaces/omnifaces.js",
                 "META-INF/resources/omnifaces/sw.js"));
 
-        resourceBundleBuildItem.produce(new NativeImageResourceBundleBuildItem("org.omnifaces.messages.properties"));
+        resourceBundleBuildItem.produce(new NativeImageResourceBundleBuildItem("org.omnifaces.messages"));
     }
 
     @BuildStep
