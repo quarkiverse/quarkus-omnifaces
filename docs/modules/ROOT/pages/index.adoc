@@ -2,7 +2,7 @@
 
 include::./includes/attributes.adoc[]
 
-TIP: Describe what the extension does here.
+A Quarkus extension that lets you utilize https://omnifaces.org[OmniFaces] library to make JSF development so much easier!
 
 == Installation
 
@@ -19,9 +19,3 @@ For instance, with Maven, add the following dependency to your POM file:
 </dependency>
 ----
 
-[[extension-configuration-reference]]
-== Extension Configuration Reference
-
-TIP: Remove this section if you don't have Quarkus configuration properties in your extension.
-
-include::includes/quarkus-omnifaces.adoc[leveloffset=+1, opts=optional]

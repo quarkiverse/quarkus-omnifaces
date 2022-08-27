@@ -2,6 +2,7 @@ package io.quarkiverse.omnifaces.deployment;
 
 import java.io.IOException;
 
+import org.apache.myfaces.cdi.view.ViewScopeBeanHolder;
 import org.jboss.jandex.AnnotationTarget;
 import org.jboss.jandex.DotName;
 import org.omnifaces.cdi.ContextParam;
@@ -137,7 +138,7 @@ class OmnifacesProcessor {
         builder.addRuntimeInitializedClass("org.omnifaces.config.WebXmlSingleton");
 
         // being fixed in MyFaces 2.3-M8
-        builder.addRuntimeInitializedClass("org.apache.myfaces.cdi.view.ViewScopeBeanHolder");
+        builder.addRuntimeInitializedClass(ViewScopeBeanHolder.class.getName());
 
         // PrimeFaces needs POI
         builder.addRuntimeInitializedClass("org.apache.poi.util.RandomSingleton");
