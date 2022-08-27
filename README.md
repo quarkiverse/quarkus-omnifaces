@@ -6,6 +6,7 @@
 [![Version](https://img.shields.io/maven-central/v/io.quarkiverse.omnifaces/quarkus-omnifaces?logo=apache-maven&style=flat-square)](https://search.maven.org/artifact/io.quarkiverse.omnifaces/quarkus-omnifaces)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 [![Build](<https://img.shields.io/github/workflow/status/quarkiverse/quarkus-omnifaces/Build?logo=GitHub&style=flat-square>)](https://github.com/quarkiverse/quarkus-omnifaces/actions?query=workflow%3ABuild)
+[![Stackoverflow](https://img.shields.io/badge/StackOverflow-omnifaces-chocolate.svg)](https://stackoverflow.com/questions/tagged/omnifaces)
 
 [![Quarkus OmniFaces Logo](https://github.com/quarkiverse/quarkus-omnifaces/blob/main/docs/modules/ROOT/assets/images/omnifaces.png)](https://omnifaces.org/)
 
