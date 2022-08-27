@@ -34,6 +34,8 @@ import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageConfigBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
@@ -144,6 +146,26 @@ class OmnifacesProcessor {
         builder.addRuntimeInitializedClass("org.apache.poi.util.RandomSingleton");
 
         return builder.build();
+    }
+
+    @BuildStep
+    void substrateResourceBuildItems(BuildProducer<NativeImageResourceBuildItem> nativeImageResourceProducer,
+            BuildProducer<NativeImageResourceBundleBuildItem> resourceBundleBuildItem) {
+        nativeImageResourceProducer.produce(new NativeImageResourceBuildItem(
+                "META-INF/omnifaces-functions.taglib.xml",
+                "META-INF/omnifaces-ui.taglib.xml",
+                "META-INF/web-fragment.xml",
+                "META-INF/faces-config.xml",
+                "META-INF/beans.xml",
+                "org/omnifaces/messages.properties",
+                "META-INF/rsc/myfaces-dev-error-include.xml",
+                "META-INF/services/javax.servlet.ServletContainerInitializer",
+                "META-INF/maven/org.omnifaces/omnifaces/pom.properties",
+                "META-INF/resources/omnifaces/fixviewstate.js",
+                "META-INF/resources/omnifaces/omnifaces.js",
+                "META-INF/resources/omnifaces/sw.js"));
+
+        resourceBundleBuildItem.produce(new NativeImageResourceBundleBuildItem("org.omnifaces.messages.properties"));
     }
 
     @BuildStep
