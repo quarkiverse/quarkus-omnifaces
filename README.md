@@ -1,6 +1,6 @@
 # Quarkus Omnifaces
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Version](https://img.shields.io/maven-central/v/io.quarkiverse.omnifaces/quarkus-omnifaces?logo=apache-maven&style=flat-square)](https://search.maven.org/artifact/io.quarkiverse.omnifaces/quarkus-omnifaces)
@@ -31,6 +31,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://melloware.com"><img src="https://avatars.githubusercontent.com/u/4399574?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Melloware</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=melloware" title="Code">💻</a> <a href="#maintenance-melloware" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://rpestano.wordpress.com"><img src="https://avatars.githubusercontent.com/u/1592273?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rafael Pestano</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=rmpestano" title="Code">💻</a> <a href="#maintenance-rmpestano" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 
