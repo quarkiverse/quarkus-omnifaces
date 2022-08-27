@@ -14,6 +14,16 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "rmpestano",
+      "name": "Rafael Pestano",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1592273?v=4",
+      "profile": "http://rpestano.wordpress.com",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
