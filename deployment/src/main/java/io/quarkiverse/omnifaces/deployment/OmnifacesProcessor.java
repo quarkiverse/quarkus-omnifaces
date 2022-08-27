@@ -15,6 +15,8 @@ import org.omnifaces.cdi.Startup;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.cdi.converter.ConverterManager;
 import org.omnifaces.cdi.eager.EagerBeansRepository;
+import org.omnifaces.cdi.eager.EagerExtension;
+import org.omnifaces.cdi.param.ParamExtension;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
@@ -44,6 +46,8 @@ class OmnifacesProcessor {
 
     private static final Class[] BEAN_CLASSES = {
             EagerBeansRepository.class,
+            EagerExtension.class,
+            ParamExtension.class,
             ValidatorManager.class,
             ViewScopeManager.class,
             ConverterManager.class
@@ -81,7 +85,8 @@ class OmnifacesProcessor {
     @BuildStep
     ContextConfiguratorBuildItem registerViewScopeContext(ContextRegistrationPhaseBuildItem phase) {
         return new ContextConfiguratorBuildItem(
-                phase.getContext().configure(ViewScoped.class).normal().contextClass(OmniFacesQuarkusViewScope.class));
+                phase.getContext().configure(ViewScoped.class).normal()
+                        .contextClass(OmniFacesQuarkusViewScope.class));
     }
 
     @BuildStep
@@ -113,7 +118,8 @@ class OmnifacesProcessor {
         //most of the classes registered for reflection below are used in OmniFaces functions (omnifaces-functions.taglib.xml)
         //myfaces (org.apache.myfaces.view.facelets.compiler.TagLibraryConfig.create) uses reflection to register facelets functions
         reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, "java.util.Set",
-                "java.util.List", "java.lang.Iterable", "java.util.Collection", "java.lang.Throwable", "java.util.Date",
+                "java.util.List", "java.lang.Iterable", "java.util.Collection", "java.lang.Throwable",
+                "java.util.Date",
                 "java.util.Calendar", "java.time.LocalDate", "java.time.LocalDateTime", "java.lang.Integer",
                 "java.lang.Long", "java.lang.Double", "java.lang.String", "java.lang.Number"));
 
@@ -121,8 +127,10 @@ class OmnifacesProcessor {
                 "org.omnifaces.el.functions.Strings", "org.omnifaces.el.functions.Arrays",
                 "org.omnifaces.el.functions.Components", "org.omnifaces.el.functions.Dates",
                 "org.omnifaces.el.functions.Numbers", "org.omnifaces.el.functions.Objects",
-                "org.omnifaces.el.functions.Converters", "org.omnifaces.util.Faces", "org.primefaces.util.ComponentUtils",
-                "org.apache.myfaces.renderkit.html.HtmlResponseStateManager", "org.primefaces.extensions.util.ComponentUtils"));
+                "org.omnifaces.el.functions.Converters", "org.omnifaces.util.Faces",
+                "org.primefaces.util.ComponentUtils",
+                "org.apache.myfaces.renderkit.html.HtmlResponseStateManager",
+                "org.primefaces.extensions.util.ComponentUtils"));
 
         // Register org.omnifaces.config.WebXmlSingleton to be initialized at runtime, it uses a static code
         NativeImageConfigBuildItem.Builder builder = NativeImageConfigBuildItem.builder();
