@@ -24,6 +24,16 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "BalusC",
+      "name": "Bauke Scholtz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/173372?v=4",
+      "profile": "https://balusc.omnifaces.org",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
