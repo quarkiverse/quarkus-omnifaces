@@ -26,6 +26,16 @@
       ]
     },
     {
+      "login": "BalusC",
+      "name": "Bauke Scholtz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/173372?v=4",
+      "profile": "https://balusc.omnifaces.org",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
+    },
+    {
       "login": "arjantijms",
       "name": "Arjan Tijms",
       "avatar_url": "https://avatars.githubusercontent.com/u/3037006?v=4",
