@@ -7,6 +7,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 [![Build](<https://img.shields.io/github/workflow/status/quarkiverse/quarkus-omnifaces/Build?logo=GitHub&style=flat-square>)](https://github.com/quarkiverse/quarkus-omnifaces/actions?query=workflow%3ABuild)
 
+[![Quarkus OmniFaces Logo](https://github.com/quarkiverse/quarkus-omnifaces/blob/main/docs/modules/ROOT/assets/images/omnifaces.png)](https://omnifaces.org/)
+
+
 ## Overview
 
 This project is a Quarkus extension that lets you utilize [OmniFaces](https://omnifaces.org/) library to make JSF development so much easier!
