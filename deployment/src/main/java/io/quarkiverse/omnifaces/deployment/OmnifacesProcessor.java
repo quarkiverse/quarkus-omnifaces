@@ -233,6 +233,10 @@ class OmnifacesProcessor {
         }
     }
 
+    /**
+     * Replace {@link org.omnifaces.cdi.Eager} and {@link org.omnifaces.cdi.Startup with the Quarkus equivalent
+     * annotations for ApplicationScoped and Startup.
+     */
     @BuildStep
     AnnotationsTransformerBuildItem transformBeanScope(BeanArchiveIndexBuildItem index,
             CustomScopeAnnotationsBuildItem scopes) {
@@ -248,12 +252,12 @@ class OmnifacesProcessor {
                     ClassInfo clazz = ctx.getTarget().asClass();
                     Map<DotName, List<AnnotationInstance>> annotations = clazz.annotationsMap();
                     if (annotations.containsKey(OMNIFACES_STARTUP)) {
-                        LOGGER.infof("OmniFaces found @%s annotations on a class %s - adding @ApplicationScoped",
+                        LOGGER.debugf("OmniFaces found @%s annotations on a class %s - adding @ApplicationScoped",
                                 OMNIFACES_STARTUP, ctx.getTarget());
                         ctx.transform().add(ApplicationScoped.class).done();
                     }
                     if (annotations.containsKey(OMNIFACES_EAGER) || annotations.containsKey(OMNIFACES_STARTUP)) {
-                        LOGGER.infof("OmniFaces found @Eager annotations on a class %s - adding @io.quarkus.runtime.Startup",
+                        LOGGER.debugf("OmniFaces found @Eager annotations on a class %s - adding @io.quarkus.runtime.Startup",
                                 ctx.getTarget());
                         ctx.transform().add(io.quarkus.runtime.Startup.class).done();
                     }
