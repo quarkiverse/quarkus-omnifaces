@@ -198,9 +198,6 @@ class OmnifacesProcessor {
         // being fixed in MyFaces 2.3-M8
         builder.addRuntimeInitializedClass(ViewScopeBeanHolder.class.getName());
 
-        // PrimeFaces needs POI
-        builder.addRuntimeInitializedClass("org.apache.poi.util.RandomSingleton");
-
         return builder.build();
     }
 
