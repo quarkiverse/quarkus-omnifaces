@@ -1,13 +1,14 @@
 ---
-name: OmniFaces
-description: "JSF utility library to make JSF life easier!"
-artifact: ${project.groupId}:${project.artifactId}:${project.version}
+name: "OmniFaces" 
+artifact: ${project.groupId}:${project.artifactId}:${project.version} 
 metadata:
-  keywords:
-    - "omnifaces"
-    - "jsf"
-    - "faces"
-    - "myfaces"
-  categories:
-    - "web"
-  status: "stable"
+  short-name: "omnifaces" 
+  keywords: 
+  - "omnifaces"
+  - "jsf"
+  - "faces"
+  - "myfaces"
+  categories: 
+  - "web"
+  status: "stable" 
+  guide: "https://quarkiverse.github.io/quarkiverse-docs/quarkus-omnifaces/dev/" 
