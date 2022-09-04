@@ -1,1 +1,1 @@
-* xref:index.adoc[Quarkus Omnifaces]
+* xref:index.adoc[Quarkus OmniFaces]

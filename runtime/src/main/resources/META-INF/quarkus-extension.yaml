@@ -8,9 +8,8 @@ metadata:
     - "jsf"
     - "faces"
     - "myfaces"
-  guide: https://quarkiverse.github.io/quarkiverse-docs/quarkus-omnifaces/dev/index.html
   categories:
     - "web
-  status: "preview"
+  guide: https://quarkiverse.github.io/quarkiverse-docs/quarkus-omnifaces/dev/index.html
   description: "JSF utility library to make JSF life easier!"
   status: "stable"

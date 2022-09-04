@@ -1,4 +1,4 @@
-= Quarkus Omnifaces
+= Quarkus OmniFaces
 
 include::./includes/attributes.adoc[]
 
