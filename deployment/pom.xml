@@ -7,7 +7,7 @@
         <version>3.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>quarkus-omnifaces-deployment</artifactId>
-    <name>Quarkus Omnifaces - Deployment</name>
+    <name>Quarkus OmniFaces - Deployment</name>
     <dependencies>
         <dependency>
             <groupId>io.quarkiverse.omnifaces</groupId>

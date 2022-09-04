@@ -10,7 +10,7 @@
     <artifactId>quarkus-omnifaces-parent</artifactId>
     <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Quarkus Omnifaces - Parent</name>
+    <name>Quarkus OmniFaces - Parent</name>
     <modules>
         <module>deployment</module>
         <module>runtime</module>

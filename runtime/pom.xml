@@ -7,7 +7,7 @@
         <version>3.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>quarkus-omnifaces</artifactId>
-    <name>Quarkus Omnifaces - Runtime</name>
+    <name>Quarkus OmniFaces - Runtime</name>
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>

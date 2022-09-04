@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>quarkus-omnifaces-docs</artifactId>
-    <name>Quarkus Omnifaces - Documentation</name>
+    <name>Quarkus OmniFaces - Documentation</name>
 
     <dependencies>
         <!-- Make sure the doc is built after the other artifacts -->

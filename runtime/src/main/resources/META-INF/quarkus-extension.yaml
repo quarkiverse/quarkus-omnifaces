@@ -1,9 +1,16 @@
-name: Omnifaces
-#description: Do something useful.
+---
+name: OmniFaces
+description: "JSF utility library to make JSF life easier!"
+artifact: ${project.groupId}:${project.artifactId}:${project.version}
 metadata:
-#  keywords:
-#    - omnifaces
-#  guide: https://quarkiverse.github.io/quarkiverse-docs/omnifaces/dev/
-#  categories:
-#    - "miscellaneous"
-#  status: "preview"
+  keywords:
+    - "omnifaces"
+    - "jsf"
+    - "faces"
+    - "myfaces"
+  guide: https://quarkiverse.github.io/quarkiverse-docs/quarkus-omnifaces/dev/index.html
+  categories:
+    - "web
+  status: "preview"
+  description: "JSF utility library to make JSF life easier!"
+  status: "stable"
