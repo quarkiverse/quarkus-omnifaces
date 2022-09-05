@@ -11,6 +11,7 @@
     <version>3.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Quarkus OmniFaces - Parent</name>
+    <description>OmniFaces - is a Faces / JSF utility library to make life easier!</description>
     <modules>
         <module>deployment</module>
         <module>runtime</module>
