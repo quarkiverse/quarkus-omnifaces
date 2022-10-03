@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.quarkiverse.omnifaces</groupId>
     <artifactId>quarkus-omnifaces-parent</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3-SNAPSHOT</version>
   </parent>
   <artifactId>quarkus-omnifaces-integration-tests</artifactId>
   <name>Quarkus OmniFaces - Integration Tests</name>
