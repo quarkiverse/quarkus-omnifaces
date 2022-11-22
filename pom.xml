@@ -24,7 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.version>2.14.1.Final</quarkus.version>
         <myfaces.version>2.3-next-M7</myfaces.version>
-        <omnifaces.version>3.14</omnifaces.version>
+        <omnifaces.version>3.14.1</omnifaces.version>
     </properties>
     <dependencyManagement>
         <dependencies>
