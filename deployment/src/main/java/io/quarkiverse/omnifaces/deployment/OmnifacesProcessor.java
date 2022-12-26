@@ -147,6 +147,8 @@ class OmnifacesProcessor {
                 "java.util.Calendar",
                 "java.time.LocalDate",
                 "java.time.LocalDateTime",
+                "java.time.OffsetDateTime",
+                "java.time.ZonedDateTime",
                 "java.lang.Integer",
                 "java.lang.Long",
                 "java.lang.Double",
@@ -187,15 +189,15 @@ class OmnifacesProcessor {
                 "org.omnifaces.util.Utils",
                 "org.omnifaces.util.Validators",
                 "org.omnifaces.util.Xml",
-                "org.primefaces.util.ComponentUtils",
                 "org.apache.myfaces.renderkit.html.HtmlResponseStateManager",
+                "org.primefaces.util.ComponentUtils",
                 "org.primefaces.extensions.util.ComponentUtils"));
 
         // Register org.omnifaces.config.WebXmlSingleton to be initialized at runtime, it uses a static code
         NativeImageConfigBuildItem.Builder builder = NativeImageConfigBuildItem.builder();
         builder.addRuntimeInitializedClass("org.omnifaces.config.WebXmlSingleton");
 
-        // being fixed in MyFaces 2.3-M8
+        // TODO: being fixed in MyFaces 2.3-M8
         builder.addRuntimeInitializedClass(ViewScopeBeanHolder.class.getName());
 
         return builder.build();
