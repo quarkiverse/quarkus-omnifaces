@@ -191,7 +191,8 @@ class OmnifacesProcessor {
                 "org.omnifaces.util.Xml",
                 "org.apache.myfaces.renderkit.html.HtmlResponseStateManager",
                 "org.primefaces.util.ComponentUtils",
-                "org.primefaces.extensions.util.ComponentUtils"));
+                "org.primefaces.extensions.util.ComponentUtils",
+                "io.undertow.servlet.spec.HttpSessionImpl"));
 
         // Register org.omnifaces.config.WebXmlSingleton to be initialized at runtime, it uses a static code
         NativeImageConfigBuildItem.Builder builder = NativeImageConfigBuildItem.builder();
