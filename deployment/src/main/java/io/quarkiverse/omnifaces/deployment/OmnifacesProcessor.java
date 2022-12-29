@@ -194,6 +194,12 @@ class OmnifacesProcessor {
                 "org.primefaces.extensions.util.ComponentUtils",
                 "io.undertow.servlet.spec.HttpSessionImpl"));
 
+        // Register CDI produced servlet objects (should be done by Undertow)
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false,
+                "javax.servlet.http.HttpServletRequest",
+                "javax.servlet.http.HttpServletResponse",
+                "javax.servlet.http.HttpSession"));
+
         // Register org.omnifaces.config.WebXmlSingleton to be initialized at runtime, it uses a static code
         NativeImageConfigBuildItem.Builder builder = NativeImageConfigBuildItem.builder();
         builder.addRuntimeInitializedClass("org.omnifaces.config.WebXmlSingleton");

@@ -49,6 +49,7 @@
 				<ul>
 					<li>It's now: #{now}</li>
 					<li>Session ID: #{session.id}</li>
+					<li>Server: #{request.serverName}</li>
 					<li>CDI view scoped bean: <span id="bean-id">#{omniCdiViewScopedBean}</span></li>
 					<li>Message: <span id="message">#{omniCdiViewScopedBean.message}</span></li>
 				</ul>
@@ -64,6 +65,64 @@
 				<p>Messages from CDI view scoped bean:</p>
 				<h:messages for="cdiViewScopedForm"/>
 			</h:form>
+
+			<hr />
+			<h3>Faces Variables</h3>
+
+			<h3>Session Scope</h3>
+			<table>
+			<ui:repeat value="#{sessionScope}" var="s">
+				<tr>
+					<td>#{s.key}</td>
+					<td>#{s.value}</td>
+				</tr>
+			</ui:repeat>
+			</table>
+			<h3>View Scope</h3>
+			<table>
+				<ui:repeat value="#{viewScope}" var="v">
+					<tr>
+						<td>#{v.key}</td>
+						<td>#{v.value}</td>
+					</tr>
+				</ui:repeat>
+			</table>
+			<h3>Headers</h3>
+			<table>
+			<ui:repeat value="#{header}" var="h">
+				<tr>
+					<td>#{h.key}</td>
+					<td>#{h.value}</td>
+				</tr>
+			</ui:repeat>
+			</table>
+			<h3>Cookies</h3>
+			<table>
+				<ui:repeat value="#{cookie}" var="c">
+					<tr>
+						<td>#{c.key}</td>
+						<td>#{c.value}</td>
+					</tr>
+				</ui:repeat>
+			</table>
+			<h3>Init Params</h3>
+			<table>
+				<ui:repeat value="#{initParam}" var="i">
+					<tr>
+						<td>#{i.key}</td>
+						<td>#{i.value}</td>
+					</tr>
+				</ui:repeat>
+			</table>
+			<h3>Application Scope</h3>
+			<table>
+				<ui:repeat value="#{applicationScope}" var="a">
+					<tr>
+						<td>#{a.key}</td>
+						<td>#{a.value}</td>
+					</tr>
+				</ui:repeat>
+			</table>
 		</h:body>
 	</f:view>
 </html>
