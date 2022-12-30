@@ -1,8 +1,11 @@
 package io.quarkiverse.omnifaces.deployment;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -116,6 +119,13 @@ class OmnifacesProcessor {
     }
 
     @BuildStep
+    void produceNativeResources(BuildProducer<NativeImageResourceBuildItem> nativeImageResourceProducer,
+            BuildProducer<NativeImageResourceBundleBuildItem> resourceBundleBuildItem) {
+        nativeImageResourceProducer
+                .produce(new NativeImageResourceBuildItem("META-INF/maven/org.omnifaces/omnifaces/pom.properties"));
+    }
+
+    @BuildStep
     @Record(ExecutionTime.STATIC_INIT)
     void buildAnnotationProviderIntegration(OmniFacesRecorder recorder, CombinedIndexBuildItem combinedIndex)
             throws IOException {
@@ -151,54 +161,30 @@ class OmnifacesProcessor {
                 "java.time.ZonedDateTime",
                 "java.lang.Integer",
                 "java.lang.Long",
+                "java.lang.Byte",
                 "java.lang.Double",
                 "java.lang.String",
                 "java.lang.Number"));
 
-        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false,
-                "org.omnifaces.el.functions.Strings",
-                "org.omnifaces.el.functions.Arrays",
-                "org.omnifaces.el.functions.Components",
-                "org.omnifaces.el.functions.Dates",
-                "org.omnifaces.el.functions.Numbers",
-                "org.omnifaces.el.functions.Objects",
-                "org.omnifaces.el.functions.Converters",
-                "org.omnifaces.util.Ajax",
-                "org.omnifaces.util.Beans",
-                "org.omnifaces.util.BeansLocal",
-                "org.omnifaces.util.Callback",
-                "org.omnifaces.util.Components",
-                "org.omnifaces.util.Events",
-                "org.omnifaces.util.Exceptions",
-                "org.omnifaces.util.Facelets",
-                "org.omnifaces.util.Faces",
-                "org.omnifaces.util.FacesLocal",
-                "org.omnifaces.util.Hacks",
-                "org.omnifaces.util.JNDI",
-                "org.omnifaces.util.JNDIObjectLocator",
-                "org.omnifaces.util.Json",
-                "org.omnifaces.util.Lazy",
-                "org.omnifaces.util.MapWrapper",
-                "org.omnifaces.util.Messages",
-                "org.omnifaces.util.Platform",
-                "org.omnifaces.util.Reflection",
-                "org.omnifaces.util.Renderers",
-                "org.omnifaces.util.ResourcePaths",
-                "org.omnifaces.util.Servlets",
-                "org.omnifaces.util.State",
-                "org.omnifaces.util.Utils",
-                "org.omnifaces.util.Validators",
-                "org.omnifaces.util.Xml",
-                "org.apache.myfaces.renderkit.html.HtmlResponseStateManager",
-                "org.primefaces.util.ComponentUtils",
-                "org.primefaces.extensions.util.ComponentUtils",
-                "io.undertow.servlet.spec.HttpSessionImpl"));
+        final List<String> classNames = new ArrayList<>();
+        // All EL functions
+        classNames.addAll(collectClassesInPackage(combinedIndex, org.omnifaces.el.functions.Strings.class.getPackageName()));
+        // All utilities
+        classNames.addAll(collectClassesInPackage(combinedIndex, org.omnifaces.util.Beans.class.getPackageName()));
 
-        // Register CDI produced servlet objects (should be done by Undertow)
-        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false,
-                "javax.servlet.http.HttpServletRequest",
-                "javax.servlet.http.HttpServletResponse",
-                "javax.servlet.http.HttpSession"));
+        // PrimeFaces Extensions Utilities
+        classNames.addAll(Arrays.asList("org.primefaces.extensions.util.CommonMarkWrapper",
+                "org.primefaces.extensions.util.ExtLangUtils",
+                "org.primefaces.extensions.util.MessageFactory",
+                "org.primefaces.extensions.util.PhoneNumberUtilWrapper",
+                "org.primefaces.extensions.util.URLEncoderWrapper"));
+
+        // TODO: Register CDI produced servlet objects (being fixed in MyFaces 2.3-M8)
+        classNames.add(io.undertow.servlet.spec.HttpServletRequestImpl.class.getName());
+        classNames.add(io.undertow.servlet.spec.HttpServletResponseImpl.class.getName());
+        classNames.add(io.undertow.servlet.spec.HttpSessionImpl.class.getName());
+
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[classNames.size()])));
 
         // Register org.omnifaces.config.WebXmlSingleton to be initialized at runtime, it uses a static code
         NativeImageConfigBuildItem.Builder builder = NativeImageConfigBuildItem.builder();
@@ -272,4 +258,32 @@ class OmnifacesProcessor {
         });
     }
 
+    public List<String> collectClassesInPackage(CombinedIndexBuildItem combinedIndex, String packageName) {
+        List<String> classes = combinedIndex.getIndex()
+                .getClassesInPackage(packageName)
+                .stream()
+                .map(ClassInfo::toString)
+                .collect(Collectors.toList());
+        return classes;
+    }
+
+    public List<String> collectSubclasses(CombinedIndexBuildItem combinedIndex, String className) {
+        List<String> classes = combinedIndex.getIndex()
+                .getAllKnownSubclasses(DotName.createSimple(className))
+                .stream()
+                .map(ClassInfo::toString)
+                .collect(Collectors.toList());
+        classes.add(className);
+        return classes;
+    }
+
+    public List<String> collectImplementors(CombinedIndexBuildItem combinedIndex, String className) {
+        List<String> classes = combinedIndex.getIndex()
+                .getAllKnownSubclasses(DotName.createSimple(className))
+                .stream()
+                .map(ClassInfo::toString)
+                .collect(Collectors.toList());
+        classes.add(className);
+        return classes;
+    }
 }
