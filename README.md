@@ -15,6 +15,20 @@ A Quarkus extension that lets you utilize [OmniFaces](https://omnifaces.org/) li
 
 This extension was previously written by the AdminFaces team and hosted [here](https://github.com/adminfaces/quarkus-omnifaces).
 
+## Getting started
+
+Read the full [OmniFaces documentation](https://quarkiverse.github.io/quarkiverse-docs/quarkus-omnifaces/dev/).
+
+### Prerequisite
+
+* Create or use an existing Quarkus application
+* Add the OmniFaces extension
+
+* With the [Quarkus CLI](https://quarkus.io/guides/cli-tooling):
+```bash
+quarkus ext add io.quarkiverse.omnifaces:quarkus-omnifaces
+```
+
 ## Showcase
 
 A showcase example using Quarkus OmniFaces and showing Faces running in the Quarkus environment can be found on
