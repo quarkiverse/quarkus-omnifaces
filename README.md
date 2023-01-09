@@ -22,9 +22,7 @@ Read the full [OmniFaces documentation](https://quarkiverse.github.io/quarkivers
 ### Prerequisite
 
 * Create or use an existing Quarkus application
-* Add the OmniFaces extension
-
-* With the [Quarkus CLI](https://quarkus.io/guides/cli-tooling):
+* Add the OmniFaces extension with the [Quarkus CLI](https://quarkus.io/guides/cli-tooling):
 ```bash
 quarkus ext add io.quarkiverse.omnifaces:quarkus-omnifaces
 ```
