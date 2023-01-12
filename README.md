@@ -32,6 +32,8 @@ quarkus ext add io.quarkiverse.omnifaces:quarkus-omnifaces
 A showcase example using Quarkus OmniFaces and showing Faces running in the Quarkus environment can be found on
 the [QuarkusFaces](https://github.com/melloware/quarkus-faces) GitHub repository "where Quarkus meets JSF!".
 
+[![Quarkus Faces Logo](https://github.com/melloware/quarkus-faces/blob/main/src/site/QuarkusFaces.svg)](https://github.com/melloware/quarkus-faces)
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
