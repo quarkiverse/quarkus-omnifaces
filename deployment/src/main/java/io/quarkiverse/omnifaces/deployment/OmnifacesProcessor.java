@@ -53,7 +53,7 @@ import io.quarkus.omnifaces.runtime.OmniFacesFeature;
 import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
 import io.quarkus.runtime.LaunchMode;
-import io.quarkus.runtime.configuration.ProfileManager;
+import io.quarkus.runtime.configuration.ConfigUtils;
 import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
 
 class OmnifacesProcessor {
@@ -214,9 +214,8 @@ class OmnifacesProcessor {
 
     @BuildStep
     void buildRecommendedInitParams(BuildProducer<ServletInitParamBuildItem> initParam) throws IOException {
-
         //disables combined resource handler in dev mode
-        if (LaunchMode.DEVELOPMENT.getDefaultProfile().equals(ProfileManager.getActiveProfile())) {
+        if (ConfigUtils.getProfiles().contains(LaunchMode.DEVELOPMENT.getDefaultProfile())) {
             initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
         }
     }
