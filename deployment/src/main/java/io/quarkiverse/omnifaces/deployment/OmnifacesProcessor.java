@@ -31,11 +31,9 @@ import org.omnifaces.resourcehandler.CombinedResourceHandler;
 
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.arc.deployment.AnnotationsTransformerBuildItem;
-import io.quarkus.arc.deployment.BeanArchiveIndexBuildItem;
 import io.quarkus.arc.deployment.BeanDefiningAnnotationBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem.ContextConfiguratorBuildItem;
-import io.quarkus.arc.deployment.CustomScopeAnnotationsBuildItem;
 import io.quarkus.arc.deployment.CustomScopeBuildItem;
 import io.quarkus.arc.processor.AnnotationsTransformer;
 import io.quarkus.deployment.annotations.BuildProducer;
@@ -124,8 +122,7 @@ class OmnifacesProcessor {
     }
 
     @BuildStep
-    void produceNativeResources(BuildProducer<NativeImageResourceBuildItem> nativeImageResourceProducer,
-            BuildProducer<NativeImageResourceBundleBuildItem> resourceBundleBuildItem) {
+    void produceNativeResources(BuildProducer<NativeImageResourceBuildItem> nativeImageResourceProducer) {
         nativeImageResourceProducer
                 .produce(new NativeImageResourceBuildItem("META-INF/maven/org.omnifaces/omnifaces/pom.properties"));
     }
@@ -225,8 +222,7 @@ class OmnifacesProcessor {
      * annotations for ApplicationScoped and Startup.
      */
     @BuildStep
-    AnnotationsTransformerBuildItem transformBeanScope(BeanArchiveIndexBuildItem index,
-            CustomScopeAnnotationsBuildItem scopes) {
+    AnnotationsTransformerBuildItem transformBeanScope() {
         return new AnnotationsTransformerBuildItem(new AnnotationsTransformer() {
             @Override
             public boolean appliesTo(AnnotationTarget.Kind kind) {
