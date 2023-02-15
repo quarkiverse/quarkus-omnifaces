@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.apache.myfaces.cdi.view.ViewScopeBeanHolder;
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
 import org.jboss.jandex.ClassInfo;
@@ -46,10 +45,11 @@ import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.AdditionalApplicationArchiveMarkerBuildItem;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
-import io.quarkus.deployment.builditem.nativeimage.NativeImageConfigBuildItem;
+import io.quarkus.deployment.builditem.NativeImageFeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
+import io.quarkus.omnifaces.runtime.OmniFacesFeature;
 import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
 import io.quarkus.runtime.LaunchMode;
@@ -86,6 +86,11 @@ class OmnifacesProcessor {
     @BuildStep
     FeatureBuildItem feature() {
         return new FeatureBuildItem(FEATURE);
+    }
+
+    @BuildStep
+    NativeImageFeatureBuildItem nativeImageFeature() {
+        return new NativeImageFeatureBuildItem(OmniFacesFeature.class);
     }
 
     @BuildStep
@@ -143,7 +148,7 @@ class OmnifacesProcessor {
     }
 
     @BuildStep
-    NativeImageConfigBuildItem registerForReflection(BuildProducer<ReflectiveClassBuildItem> reflectiveClass,
+    void registerForReflection(BuildProducer<ReflectiveClassBuildItem> reflectiveClass,
             CombinedIndexBuildItem combinedIndex) {
 
         //most of the classes registered for reflection below are used in OmniFaces functions (omnifaces-functions.taglib.xml)
@@ -172,7 +177,7 @@ class OmnifacesProcessor {
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, org.omnifaces.util.Beans.class.getPackageName()));
 
-        // PrimeFaces Extensions Utilities
+        // TODO: REMOVE PrimeFaces Extensions Utilities
         classNames.addAll(Arrays.asList("org.primefaces.extensions.util.CommonMarkWrapper",
                 "org.primefaces.extensions.util.ExtLangUtils",
                 "org.primefaces.extensions.util.MessageFactory",
@@ -185,15 +190,6 @@ class OmnifacesProcessor {
         classNames.add(io.undertow.servlet.spec.HttpSessionImpl.class.getName());
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[classNames.size()])));
-
-        // Register org.omnifaces.config.WebXmlSingleton to be initialized at runtime, it uses a static code
-        NativeImageConfigBuildItem.Builder builder = NativeImageConfigBuildItem.builder();
-        builder.addRuntimeInitializedClass("org.omnifaces.config.WebXmlSingleton");
-
-        // TODO: being fixed in MyFaces 2.3-M8
-        builder.addRuntimeInitializedClass(ViewScopeBeanHolder.class.getName());
-
-        return builder.build();
     }
 
     @BuildStep
