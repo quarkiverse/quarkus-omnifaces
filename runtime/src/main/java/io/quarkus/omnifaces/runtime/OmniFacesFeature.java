@@ -7,7 +7,7 @@ import org.graalvm.nativeimage.impl.RuntimeClassInitializationSupport;
 
 public class OmniFacesFeature implements Feature {
 
-    private final static String REASON = "Quarkus run time init for OmniFaces";
+    private final static String REASON = "OmniFaces runtime initialization";
 
     @Override
     public void afterRegistration(AfterRegistrationAccess access) {
