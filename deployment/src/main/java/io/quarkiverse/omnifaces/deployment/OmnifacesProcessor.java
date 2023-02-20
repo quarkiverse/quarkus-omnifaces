@@ -2,7 +2,6 @@ package io.quarkiverse.omnifaces.deployment;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,6 +43,7 @@ import io.quarkus.deployment.builditem.AdditionalApplicationArchiveMarkerBuildIt
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.NativeImageFeatureBuildItem;
+import io.quarkus.deployment.builditem.SystemPropertyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
@@ -70,7 +70,6 @@ class OmnifacesProcessor {
     };
 
     private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {
-
             ContextParam.class.getName(),
             Cookie.class.getName(),
             Eager.class.getName(),
@@ -150,17 +149,21 @@ class OmnifacesProcessor {
 
         //most of the classes registered for reflection below are used in OmniFaces functions (omnifaces-functions.taglib.xml)
         //myfaces (org.apache.myfaces.view.facelets.compiler.TagLibraryConfig.create) uses reflection to register facelets functions
-        reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, "java.util.Set",
+        // TODO: (being fixed in MyFaces 2.3-M8)
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false,
+                "java.util.Set",
                 "java.util.List",
-                "java.lang.Iterable",
                 "java.util.Collection",
-                "java.lang.Throwable",
                 "java.util.Date",
                 "java.util.Calendar",
+                "java.lang.Iterable",
+                "java.lang.Throwable",
                 "java.time.LocalDate",
                 "java.time.LocalDateTime",
                 "java.time.OffsetDateTime",
                 "java.time.ZonedDateTime",
+                "java.math.BigDecimal",
+                "java.math.BigInteger",
                 "java.lang.Integer",
                 "java.lang.Long",
                 "java.lang.Byte",
@@ -174,19 +177,62 @@ class OmnifacesProcessor {
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, org.omnifaces.util.Beans.class.getPackageName()));
 
-        // TODO: REMOVE PrimeFaces Extensions Utilities
-        classNames.addAll(Arrays.asList("org.primefaces.extensions.util.CommonMarkWrapper",
-                "org.primefaces.extensions.util.ExtLangUtils",
-                "org.primefaces.extensions.util.MessageFactory",
-                "org.primefaces.extensions.util.PhoneNumberUtilWrapper",
-                "org.primefaces.extensions.util.URLEncoderWrapper"));
-
         // TODO: Register CDI produced servlet objects (being fixed in MyFaces 2.3-M8)
         classNames.add(io.undertow.servlet.spec.HttpServletRequestImpl.class.getName());
         classNames.add(io.undertow.servlet.spec.HttpServletResponseImpl.class.getName());
         classNames.add(io.undertow.servlet.spec.HttpSessionImpl.class.getName());
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[classNames.size()])));
+    }
+
+    @BuildStep
+    SystemPropertyBuildItem xpathSystemProperties() {
+        // from Camel Quarkus Xpath https://issues.apache.org/jira/browse/XALANJ-2540
+        return new SystemPropertyBuildItem("org.apache.xml.dtm.DTMManager", "org.apache.xml.dtm.ref.DTMManagerDefault");
+    }
+
+    @BuildStep
+    void registerCoreXPathFunctionsAsReflective(BuildProducer<ReflectiveClassBuildItem> reflectiveClass) {
+        // from Camel Quarkus Xpath needed to parse WebXmlSingleton
+        final String[] classNames = new String[] {
+                "com.sun.org.apache.xpath.internal.functions.FuncBoolean",
+                "com.sun.org.apache.xpath.internal.functions.FuncCeiling",
+                "com.sun.org.apache.xpath.internal.functions.FuncConcat",
+                "com.sun.org.apache.xpath.internal.functions.FuncContains",
+                "com.sun.org.apache.xpath.internal.functions.FuncCount",
+                "com.sun.org.apache.xpath.internal.functions.FuncCurrent",
+                "com.sun.org.apache.xpath.internal.functions.FuncDoclocation",
+                "com.sun.org.apache.xpath.internal.functions.FuncExtElementAvailable",
+                "com.sun.org.apache.xpath.internal.functions.FuncExtFunction",
+                "com.sun.org.apache.xpath.internal.functions.FuncExtFunctionAvailable",
+                "com.sun.org.apache.xpath.internal.functions.FuncFalse",
+                "com.sun.org.apache.xpath.internal.functions.FuncFloor",
+                "com.sun.org.apache.xpath.internal.functions.FuncGenerateId",
+                "com.sun.org.apache.xpath.internal.functions.FuncHere",
+                "com.sun.org.apache.xpath.internal.functions.FuncId",
+                "com.sun.org.apache.xpath.internal.functions.FuncLang",
+                "com.sun.org.apache.xpath.internal.functions.FuncLast",
+                "com.sun.org.apache.xpath.internal.functions.FuncLocalPart",
+                "com.sun.org.apache.xpath.internal.functions.FuncNamespace",
+                "com.sun.org.apache.xpath.internal.functions.FuncNormalizeSpace",
+                "com.sun.org.apache.xpath.internal.functions.FuncNot",
+                "com.sun.org.apache.xpath.internal.functions.FuncNumber",
+                "com.sun.org.apache.xpath.internal.functions.FuncPosition",
+                "com.sun.org.apache.xpath.internal.functions.FuncQname",
+                "com.sun.org.apache.xpath.internal.functions.FuncRound",
+                "com.sun.org.apache.xpath.internal.functions.FuncStartsWith",
+                "com.sun.org.apache.xpath.internal.functions.FuncString",
+                "com.sun.org.apache.xpath.internal.functions.FuncStringLength",
+                "com.sun.org.apache.xpath.internal.functions.FuncSubstring",
+                "com.sun.org.apache.xpath.internal.functions.FuncSubstringAfter",
+                "com.sun.org.apache.xpath.internal.functions.FuncSubstringBefore",
+                "com.sun.org.apache.xpath.internal.functions.FuncSum",
+                "com.sun.org.apache.xpath.internal.functions.FuncSystemProperty",
+                "com.sun.org.apache.xpath.internal.functions.FuncTranslate",
+                "com.sun.org.apache.xpath.internal.functions.FuncTrue",
+                "com.sun.org.apache.xpath.internal.functions.FuncUnparsedEntityURI"
+        };
+        reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, classNames));
     }
 
     @BuildStep
