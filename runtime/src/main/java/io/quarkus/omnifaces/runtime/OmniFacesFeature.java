@@ -13,7 +13,9 @@ public class OmniFacesFeature implements Feature {
     public void afterRegistration(AfterRegistrationAccess access) {
         final RuntimeClassInitializationSupport runtimeInit = ImageSingletons.lookup(RuntimeClassInitializationSupport.class);
 
+        runtimeInit.initializeAtRunTime("org.omnifaces.config.FacesConfigXmlSingleton", REASON);
         runtimeInit.initializeAtRunTime("org.omnifaces.config.WebXmlSingleton", REASON);
+
         // TODO: being fixed in MyFaces 2.3-M8
         runtimeInit.initializeAtRunTime(ViewScopeBeanHolder.class, REASON);
     }

@@ -1,6 +1,5 @@
 package io.quarkiverse.omnifaces.deployment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +25,8 @@ import org.omnifaces.cdi.converter.ConverterManager;
 import org.omnifaces.cdi.eager.EagerBeansRepository;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
+import org.omnifaces.config.FacesConfigXml;
+import org.omnifaces.config.WebXml;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
 
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
@@ -43,7 +44,6 @@ import io.quarkus.deployment.builditem.AdditionalApplicationArchiveMarkerBuildIt
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.NativeImageFeatureBuildItem;
-import io.quarkus.deployment.builditem.SystemPropertyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
@@ -92,7 +92,7 @@ class OmnifacesProcessor {
 
     @BuildStep
     void buildCdiBeans(BuildProducer<AdditionalBeanBuildItem> additionalBean,
-            BuildProducer<BeanDefiningAnnotationBuildItem> beanDefiningAnnotation) throws IOException {
+            BuildProducer<BeanDefiningAnnotationBuildItem> beanDefiningAnnotation) {
         for (Class<?> clazz : BEAN_CLASSES) {
             additionalBean.produce(AdditionalBeanBuildItem.unremovableOf(clazz));
         }
@@ -128,12 +128,10 @@ class OmnifacesProcessor {
 
     @BuildStep
     @Record(ExecutionTime.STATIC_INIT)
-    void buildAnnotationProviderIntegration(OmniFacesRecorder recorder, CombinedIndexBuildItem combinedIndex)
-            throws IOException {
+    void buildAnnotationProviderIntegration(OmniFacesRecorder recorder, CombinedIndexBuildItem combinedIndex) {
         for (String clazz : BEAN_DEFINING_ANNOTATION_CLASSES) {
             combinedIndex.getIndex()
                     .getAnnotations(DotName.createSimple(clazz))
-                    .stream()
                     .forEach(annotation -> {
                         if (annotation.target().kind() == AnnotationTarget.Kind.CLASS) {
                             recorder.registerAnnotatedClass(annotation.name().toString(),
@@ -173,27 +171,24 @@ class OmnifacesProcessor {
 
         final List<String> classNames = new ArrayList<>();
         // All EL functions
-        classNames.addAll(collectClassesInPackage(combinedIndex, org.omnifaces.el.functions.Strings.class.getPackageName()));
+        classNames.addAll(collectClassesInPackage(combinedIndex, " org.omnifaces.el.functions"));
         // All utilities
-        classNames.addAll(collectClassesInPackage(combinedIndex, org.omnifaces.util.Beans.class.getPackageName()));
+        classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
+        classNames.add(FacesConfigXml.class.getName());
+        classNames.add(WebXml.class.getName());
 
         // TODO: Register CDI produced servlet objects (being fixed in MyFaces 2.3-M8)
         classNames.add(io.undertow.servlet.spec.HttpServletRequestImpl.class.getName());
         classNames.add(io.undertow.servlet.spec.HttpServletResponseImpl.class.getName());
         classNames.add(io.undertow.servlet.spec.HttpSessionImpl.class.getName());
 
-        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[classNames.size()])));
-    }
-
-    @BuildStep
-    SystemPropertyBuildItem xpathSystemProperties() {
-        // from Camel Quarkus Xpath https://issues.apache.org/jira/browse/XALANJ-2540
-        return new SystemPropertyBuildItem("org.apache.xml.dtm.DTMManager", "org.apache.xml.dtm.ref.DTMManagerDefault");
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[0])));
     }
 
     @BuildStep
     void registerCoreXPathFunctionsAsReflective(BuildProducer<ReflectiveClassBuildItem> reflectiveClass) {
         // from Camel Quarkus Xpath needed to parse WebXmlSingleton
+        // TODO: (being fixed in MyFaces 2.3-M8)
         final String[] classNames = new String[] {
                 "com.sun.org.apache.xpath.internal.functions.FuncBoolean",
                 "com.sun.org.apache.xpath.internal.functions.FuncCeiling",
@@ -256,7 +251,7 @@ class OmnifacesProcessor {
     }
 
     @BuildStep
-    void buildRecommendedInitParams(BuildProducer<ServletInitParamBuildItem> initParam) throws IOException {
+    void buildRecommendedInitParams(BuildProducer<ServletInitParamBuildItem> initParam) {
         //disables combined resource handler in dev mode
         if (ConfigUtils.getProfiles().contains(LaunchMode.DEVELOPMENT.getDefaultProfile())) {
             initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
@@ -296,31 +291,18 @@ class OmnifacesProcessor {
     }
 
     public List<String> collectClassesInPackage(CombinedIndexBuildItem combinedIndex, String packageName) {
-        List<String> classes = combinedIndex.getIndex()
-                .getClassesInPackage(packageName)
-                .stream()
-                .map(ClassInfo::toString)
-                .collect(Collectors.toList());
+        final List<String> classes = new ArrayList<>();
+        final List<DotName> packages = new ArrayList<>(combinedIndex.getIndex().getSubpackages(packageName));
+        packages.add(DotName.createSimple(packageName));
+        for (DotName aPackage : packages) {
+            final List<String> packageClasses = combinedIndex.getIndex()
+                    .getClassesInPackage(aPackage)
+                    .stream()
+                    .map(ClassInfo::toString)
+                    .collect(Collectors.toList());
+            classes.addAll(packageClasses);
+        }
         return classes;
     }
 
-    public List<String> collectSubclasses(CombinedIndexBuildItem combinedIndex, String className) {
-        List<String> classes = combinedIndex.getIndex()
-                .getAllKnownSubclasses(DotName.createSimple(className))
-                .stream()
-                .map(ClassInfo::toString)
-                .collect(Collectors.toList());
-        classes.add(className);
-        return classes;
-    }
-
-    public List<String> collectImplementors(CombinedIndexBuildItem combinedIndex, String className) {
-        List<String> classes = combinedIndex.getIndex()
-                .getAllKnownSubclasses(DotName.createSimple(className))
-                .stream()
-                .map(ClassInfo::toString)
-                .collect(Collectors.toList());
-        classes.add(className);
-        return classes;
-    }
 }
