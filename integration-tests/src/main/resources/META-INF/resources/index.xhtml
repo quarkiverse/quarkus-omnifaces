@@ -41,7 +41,6 @@
 					<f:ajax render=":form"/>
 				</h:commandButton>
 			</o:form>
-			
 			<hr/>
 			<h3>CDI view scoped bean</h3>
 			<h:form id="cdiViewScopedForm">
@@ -50,8 +49,10 @@
 					<li>It's now: #{now}</li>
 					<li>Session ID: #{session.id}</li>
 					<li>Server: #{request.serverName}</li>
-					<li>CDI view scoped bean: <span id="bean-id">#{omniCdiViewScopedBean}</span></li>
-					<li>Message: <span id="message">#{omniCdiViewScopedBean.message}</span></li>
+					<li>CDI view scoped bean: <span id="bean-id">#{omniCdiViewScopedBean}</span>
+					</li>
+					<li>Message: <span id="message">#{omniCdiViewScopedBean.message}</span>
+					</li>
 				</ul>
 				<p>
 					<h:commandButton value="submit form without ajax" action="#{omniCdiViewScopedBean.submit}"/>
@@ -65,18 +66,44 @@
 				<p>Messages from CDI view scoped bean:</p>
 				<h:messages for="cdiViewScopedForm"/>
 			</h:form>
-
-			<hr />
+			<hr/>
 			<h3>Faces Variables</h3>
-
+			<table>
+				<tr>
+					<td>Development</td>
+					<td>#{faces.development}</td>
+				</tr>
+				<tr>
+					<td>Server Info</td>
+					<td>#{faces.serverInfo}</td>
+				</tr>
+				<tr>
+					<td>AJAX Request</td>
+					<td>#{faces.ajaxRequest}</td>
+				</tr>
+				<tr>
+					<td>Base URL</td>
+					<td>#{faces.requestBaseURL}</td>
+				</tr>
+				<tr>
+					<td>Query String</td>
+					<td>#{faces.requestURLWithQueryString}</td>
+				</tr>
+			</table>
+			<ul>
+				<li>Request base URL: #{of:getRequestBaseURL()}</li>
+				<li>Request domain URL: #{of:getRequestDomainURL()}</li>
+				<li>Request URL with query string: #{of:getRequestURLWithQueryString()}</li>
+				<li>Remote addr: #{of:getRemoteAddr()}</li>
+			</ul>
 			<h3>Session Scope</h3>
 			<table>
-			<ui:repeat value="#{sessionScope}" var="s">
-				<tr>
-					<td>#{s.key}</td>
-					<td>#{s.value}</td>
-				</tr>
-			</ui:repeat>
+				<ui:repeat value="#{sessionScope}" var="s">
+					<tr>
+						<td>#{s.key}</td>
+						<td>#{s.value}</td>
+					</tr>
+				</ui:repeat>
 			</table>
 			<h3>View Scope</h3>
 			<table>
@@ -89,12 +116,12 @@
 			</table>
 			<h3>Headers</h3>
 			<table>
-			<ui:repeat value="#{header}" var="h">
-				<tr>
-					<td>#{h.key}</td>
-					<td>#{h.value}</td>
-				</tr>
-			</ui:repeat>
+				<ui:repeat value="#{header}" var="h">
+					<tr>
+						<td>#{h.key}</td>
+						<td>#{h.value}</td>
+					</tr>
+				</ui:repeat>
 			</table>
 			<h3>Cookies</h3>
 			<table>

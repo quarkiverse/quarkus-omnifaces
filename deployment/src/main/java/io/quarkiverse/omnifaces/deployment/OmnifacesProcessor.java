@@ -36,6 +36,7 @@ import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem.ContextConfiguratorBuildItem;
 import io.quarkus.arc.deployment.CustomScopeBuildItem;
 import io.quarkus.arc.processor.AnnotationsTransformer;
+import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
@@ -50,8 +51,6 @@ import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.omnifaces.runtime.OmniFacesFeature;
 import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
-import io.quarkus.runtime.LaunchMode;
-import io.quarkus.runtime.configuration.ConfigUtils;
 import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
 
 class OmnifacesProcessor {
@@ -250,12 +249,10 @@ class OmnifacesProcessor {
         resourceBundleBuildItem.produce(new NativeImageResourceBundleBuildItem("org.omnifaces.messages"));
     }
 
-    @BuildStep
-    void buildRecommendedInitParams(BuildProducer<ServletInitParamBuildItem> initParam) {
+    @BuildStep(onlyIf = IsDevelopment.class)
+    void buildDevelopmentInitParams(BuildProducer<ServletInitParamBuildItem> initParam) {
         //disables combined resource handler in dev mode
-        if (ConfigUtils.getProfiles().contains(LaunchMode.DEVELOPMENT.getDefaultProfile())) {
-            initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
-        }
+        initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
     }
 
     /**
