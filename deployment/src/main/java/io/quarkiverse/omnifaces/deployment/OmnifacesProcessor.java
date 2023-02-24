@@ -170,7 +170,7 @@ class OmnifacesProcessor {
 
         final List<String> classNames = new ArrayList<>();
         // All EL functions
-        classNames.addAll(collectClassesInPackage(combinedIndex, " org.omnifaces.el.functions"));
+        classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.el.functions"));
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
         classNames.add(FacesConfigXml.class.getName());
