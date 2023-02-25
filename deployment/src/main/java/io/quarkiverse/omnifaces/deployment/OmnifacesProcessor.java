@@ -25,8 +25,6 @@ import org.omnifaces.cdi.converter.ConverterManager;
 import org.omnifaces.cdi.eager.EagerBeansRepository;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
-import org.omnifaces.config.FacesConfigXml;
-import org.omnifaces.config.WebXml;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
 
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
@@ -173,8 +171,6 @@ class OmnifacesProcessor {
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.el.functions"));
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
-        classNames.add(FacesConfigXml.class.getName());
-        classNames.add(WebXml.class.getName());
 
         // TODO: Register CDI produced servlet objects (being fixed in MyFaces 2.3-M8)
         classNames.add(io.undertow.servlet.spec.HttpServletRequestImpl.class.getName());
