@@ -88,7 +88,7 @@
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/error.xhtml</location>
+        <location>/notfound.xhtml</location>
     </error-page>
 
     <servlet>
