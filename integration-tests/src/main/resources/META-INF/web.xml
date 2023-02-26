@@ -100,7 +100,7 @@
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
