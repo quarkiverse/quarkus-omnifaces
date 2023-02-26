@@ -176,6 +176,7 @@ class OmnifacesProcessor {
         classNames.add(io.undertow.servlet.spec.HttpServletRequestImpl.class.getName());
         classNames.add(io.undertow.servlet.spec.HttpServletResponseImpl.class.getName());
         classNames.add(io.undertow.servlet.spec.HttpSessionImpl.class.getName());
+        classNames.add(javax.faces.application.ViewExpiredException.class.getName());
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[0])));
     }
