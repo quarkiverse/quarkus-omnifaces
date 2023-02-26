@@ -27,6 +27,15 @@ Read the full [OmniFaces documentation](https://quarkiverse.github.io/quarkivers
 quarkus ext add io.quarkiverse.omnifaces:quarkus-omnifaces
 ```
 
+## Versioning
+
+The versioning of this extension will follow the pattern `[faces.version].[omnifaces.version].[patch]`. For example:
+
+| Version | Explanation |
+| --- | --- |
+| 3.14.2 | Quarkus 2 (EE8), OmniFaces 3, Revision 2 |
+| 4.1.0 | Quarkus 3 (EEE10), OmniFaces 4, Revision 0 |
+
 ## Showcase
 
 A showcase example using Quarkus OmniFaces and showing Faces running in the Quarkus environment can be found on

@@ -19,3 +19,17 @@ For instance, with Maven, add the following dependency to your POM file:
 </dependency>
 ----
 
+== Versioning
+
+The versioning of this extension will follow the pattern `[faces.version].[omnifaces.version].[patch]`. For example:
+
+[cols="1,1"]
+|===
+|Version |Explanation
+
+|3.14.2
+|Quarkus 2 (EE8), OmniFaces 3, Revision 2
+
+|4.1.0
+| Quarkus 3 (EEE10), OmniFaces 4, Revision 0
+|===
