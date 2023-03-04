@@ -18,12 +18,12 @@
         <module>docs</module>
     </modules>
     <properties>
-        <compiler-plugin.version>3.10.1</compiler-plugin.version>
-        <maven.compiler.release>11</maven.compiler.release>
+        <compiler-plugin.version>3.11.0</compiler-plugin.version>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.version>2.16.4.Final</quarkus.version>
-        <myfaces.version>2.3-next-M7</myfaces.version>
+        <myfaces.version>2.3-next-SNAPSHOT</myfaces.version>
         <omnifaces.version>3.14.2</omnifaces.version>
     </properties>
     <dependencyManagement>
@@ -72,6 +72,19 @@
             </plugins>
         </pluginManagement>
     </build>
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Development Snapshot Repository</name>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <profiles>
         <profile>
             <id>it</id>
