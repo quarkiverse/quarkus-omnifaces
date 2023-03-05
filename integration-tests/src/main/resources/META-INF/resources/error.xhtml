@@ -16,28 +16,33 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:o="http://omnifaces.org/ui" xmlns:of="http://omnifaces.org/functions">
-	<f:view contentType="text/html">
-		<h:head>
+<html lang="en"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets" 
+    xmlns:o="http://omnifaces.org/ui" 
+    xmlns:o="http://omnifaces.org/ui" 
+    xmlns:of="http://omnifaces.org/functions">
+    <f:view contentType="text/html">
+        <h:head>
         </h:head>
-		<h:body>
-			<hr/>
-			<h3>Error</h3>
-			<ul>
-			<ul>
-				<li>Date/time: #{of:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}</li>
-				<li>User agent: #{header['user-agent']}</li>
-				<li>User IP: #{request.remoteAddr}</li>
-				<li>Request URI: #{requestScope['javax.servlet.error.request_uri']}</li>
-				<li>Ajax request: #{facesContext.partialViewContext.ajaxRequest ? 'Yes' : 'No'}</li>
-				<li>Status code: #{requestScope['javax.servlet.error.status_code']}</li>
-				<li>Exception type: #{requestScope['javax.servlet.error.exception_type']}</li>
-				<li>Exception message: #{requestScope['javax.servlet.error.message']}</li>
-				<li>Exception UUID: #{requestScope['org.omnifaces.exception_uuid']}</li>
-				<li>Stack trace: <pre>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
-				</li>
-			</ul>
-		</h:body>
-	</f:view>
+        <h:body>
+            <hr/>
+            <h3>Error</h3>
+            <ul>
+            <ul>
+                <li>Date/time: #{of:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}</li>
+                <li>User agent: #{header['user-agent']}</li>
+                <li>User IP: #{request.remoteAddr}</li>
+                <li>Request URI: #{requestScope['javax.servlet.error.request_uri']}</li>
+                <li>Ajax request: #{facesContext.partialViewContext.ajaxRequest ? 'Yes' : 'No'}</li>
+                <li>Status code: #{requestScope['javax.servlet.error.status_code']}</li>
+                <li>Exception type: #{requestScope['javax.servlet.error.exception_type']}</li>
+                <li>Exception message: #{requestScope['javax.servlet.error.message']}</li>
+                <li>Exception UUID: #{requestScope['org.omnifaces.exception_uuid']}</li>
+                <li>Stack trace: <pre>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
+                </li>
+            </ul>
+        </h:body>
+    </f:view>
 </html>

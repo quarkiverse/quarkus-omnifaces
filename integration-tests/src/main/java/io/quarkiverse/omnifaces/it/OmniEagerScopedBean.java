@@ -16,8 +16,8 @@
  */
 package io.quarkiverse.omnifaces.it;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
 
 import org.omnifaces.cdi.Eager;
 

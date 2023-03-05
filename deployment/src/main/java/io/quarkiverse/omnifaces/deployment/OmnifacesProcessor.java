@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
@@ -163,7 +163,7 @@ class OmnifacesProcessor {
                 "META-INF/web.xml",
                 "org/omnifaces/messages.properties",
                 "META-INF/rsc/myfaces-dev-error-include.xml",
-                "META-INF/services/javax.servlet.ServletContainerInitializer",
+                "META-INF/services/jakarta.servlet.ServletContainerInitializer",
                 "META-INF/maven/org.omnifaces/omnifaces/pom.properties"));
 
         resourceBundleBuildItem.produce(new NativeImageResourceBundleBuildItem("org.omnifaces.messages"));

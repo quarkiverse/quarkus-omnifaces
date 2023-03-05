@@ -16,140 +16,145 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:o="http://omnifaces.org/ui" xmlns:of="http://omnifaces.org/functions">
-	<f:view contentType="text/html">
-		<h:head>
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets" 
+    xmlns:o="http://omnifaces.org/ui" 
+    xmlns:of="http://omnifaces.org/functions">
+    <f:view contentType="text/html">
+        <h:head>
         </h:head>
-		<h:body>
-			<hr/>
-			<h3>Now and Startup</h3>
-			<o:form id="form">
-				<p>
+        <h:body>
+            <hr/>
+            <h3>Now and Startup</h3>
+            <o:form id="form">
+                <p>
     Raw <code>Temporal#toString()</code> value of <code>\#{now}</code>: <strong>#{now}</strong> - this should represent same format as <code>java.time.ZonedDateTime</code>
-				</p>
-				<p>
+                </p>
+                <p>
     Formatted using <code>of:formatDate()</code> function: #{of:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}
 </p>
-				<p>
+                <p>
     Raw <code>Temporal#toString()</code> value of <code>\#{startup}</code>: <strong>#{startup}</strong> - this should represent same format as <code>java.time.ZonedDateTime</code>
-				</p>
-				<p>
+                </p>
+                <p>
     Formatted using <code>of:formatDate()</code> function: #{of:formatDate(startup, 'yyyy-MM-dd HH:mm:ss')}
 </p>
-				<h:commandButton value="Refresh">
-					<f:ajax render=":form"/>
-				</h:commandButton>
-			</o:form>
-			<hr/>
-			<h3>CDI view scoped bean</h3>
-			<h:form id="cdiViewScopedForm">
-				<p>Status:</p>
-				<ul>
-					<li>It's now: #{now}</li>
-					<li>Session ID: #{session.id}</li>
-					<li>Server: #{request.serverName}</li>
-					<li>CDI view scoped bean: <span id="bean-id">#{omniCdiViewScopedBean}</span>
-					</li>
-					<li>Message: <span id="message">#{omniCdiViewScopedBean.message}</span>
-					</li>
-				</ul>
-				<p>
-					<h:commandButton value="submit form without ajax" action="#{omniCdiViewScopedBean.submit}"/>
-					<f:ajax execute="@form" render="@form">
-						<h:commandButton value="submit form with ajax" action="#{omniCdiViewScopedBean.submit}"/>
-						<h:commandButton value="rebuild view" action="#{omniCdiViewScopedBean.rebuildView}"/>
-						<h:commandButton value="navigate on POST" action="#{omniCdiViewScopedBean.navigate}"/>
-					</f:ajax>
-					<h:button value="refresh page"/>
-				</p>
-				<p>Messages from CDI view scoped bean:</p>
-				<h:messages for="cdiViewScopedForm"/>
-			</h:form>
-			<hr/>
-			<h3>Faces Variables</h3>
-			<table>
-				<tr>
-					<td>Development</td>
-					<td>#{faces.development}</td>
-				</tr>
-				<tr>
-					<td>Server Info</td>
-					<td>#{faces.serverInfo}</td>
-				</tr>
-				<tr>
-					<td>AJAX Request</td>
-					<td>#{faces.ajaxRequest}</td>
-				</tr>
-				<tr>
-					<td>Base URL</td>
-					<td>#{faces.requestBaseURL}</td>
-				</tr>
-				<tr>
-					<td>Query String</td>
-					<td>#{faces.requestURLWithQueryString}</td>
-				</tr>
-			</table>
-			<ul>
-				<li>Request base URL: #{of:getRequestBaseURL()}</li>
-				<li>Request domain URL: #{of:getRequestDomainURL()}</li>
-				<li>Request URL with query string: #{of:getRequestURLWithQueryString()}</li>
-				<li>Remote addr: #{of:getRemoteAddr()}</li>
-			</ul>
-			<h3>Session Scope</h3>
-			<table>
-				<ui:repeat value="#{sessionScope}" var="s">
-					<tr>
-						<td>#{s.key}</td>
-						<td>#{s.value}</td>
-					</tr>
-				</ui:repeat>
-			</table>
-			<h3>View Scope</h3>
-			<table>
-				<ui:repeat value="#{viewScope}" var="v">
-					<tr>
-						<td>#{v.key}</td>
-						<td>#{v.value}</td>
-					</tr>
-				</ui:repeat>
-			</table>
-			<h3>Headers</h3>
-			<table>
-				<ui:repeat value="#{header}" var="h">
-					<tr>
-						<td>#{h.key}</td>
-						<td>#{h.value}</td>
-					</tr>
-				</ui:repeat>
-			</table>
-			<h3>Cookies</h3>
-			<table>
-				<ui:repeat value="#{cookie}" var="c">
-					<tr>
-						<td>#{c.key}</td>
-						<td>#{c.value}</td>
-					</tr>
-				</ui:repeat>
-			</table>
-			<h3>Init Params</h3>
-			<table>
-				<ui:repeat value="#{initParam}" var="i">
-					<tr>
-						<td>#{i.key}</td>
-						<td>#{i.value}</td>
-					</tr>
-				</ui:repeat>
-			</table>
-			<h3>Application Scope</h3>
-			<table>
-				<ui:repeat value="#{applicationScope}" var="a">
-					<tr>
-						<td>#{a.key}</td>
-						<td>#{a.value}</td>
-					</tr>
-				</ui:repeat>
-			</table>
-		</h:body>
-	</f:view>
+                <h:commandButton value="Refresh">
+                    <f:ajax render=":form"/>
+                </h:commandButton>
+            </o:form>
+            <hr/>
+            <h3>CDI view scoped bean</h3>
+            <h:form id="cdiViewScopedForm">
+                <p>Status:</p>
+                <ul>
+                    <li>It's now: #{now}</li>
+                    <li>Session ID: #{session.id}</li>
+                    <li>Server: #{request.serverName}</li>
+                    <li>CDI view scoped bean: <span id="bean-id">#{omniCdiViewScopedBean}</span>
+                    </li>
+                    <li>Message: <span id="message">#{omniCdiViewScopedBean.message}</span>
+                    </li>
+                </ul>
+                <p>
+                    <h:commandButton value="submit form without ajax" action="#{omniCdiViewScopedBean.submit}"/>
+                    <f:ajax execute="@form" render="@form">
+                        <h:commandButton value="submit form with ajax" action="#{omniCdiViewScopedBean.submit}"/>
+                        <h:commandButton value="rebuild view" action="#{omniCdiViewScopedBean.rebuildView}"/>
+                        <h:commandButton value="navigate on POST" action="#{omniCdiViewScopedBean.navigate}"/>
+                    </f:ajax>
+                    <h:button value="refresh page"/>
+                </p>
+                <p>Messages from CDI view scoped bean:</p>
+                <h:messages for="cdiViewScopedForm"/>
+            </h:form>
+            <hr/>
+            <h3>Faces Variables</h3>
+            <table>
+                <tr>
+                    <td>Development</td>
+                    <td>#{faces.development}</td>
+                </tr>
+                <tr>
+                    <td>Server Info</td>
+                    <td>#{faces.serverInfo}</td>
+                </tr>
+                <tr>
+                    <td>AJAX Request</td>
+                    <td>#{faces.ajaxRequest}</td>
+                </tr>
+                <tr>
+                    <td>Base URL</td>
+                    <td>#{faces.requestBaseURL}</td>
+                </tr>
+                <tr>
+                    <td>Query String</td>
+                    <td>#{faces.requestURLWithQueryString}</td>
+                </tr>
+            </table>
+            <ul>
+                <li>Request base URL: #{of:getRequestBaseURL()}</li>
+                <li>Request domain URL: #{of:getRequestDomainURL()}</li>
+                <li>Request URL with query string: #{of:getRequestURLWithQueryString()}</li>
+                <li>Remote addr: #{of:getRemoteAddr()}</li>
+            </ul>
+            <h3>Session Scope</h3>
+            <table>
+                <ui:repeat value="#{sessionScope}" var="s">
+                    <tr>
+                        <td>#{s.key}</td>
+                        <td>#{s.value}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+            <h3>View Scope</h3>
+            <table>
+                <ui:repeat value="#{viewScope}" var="v">
+                    <tr>
+                        <td>#{v.key}</td>
+                        <td>#{v.value}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+            <h3>Headers</h3>
+            <table>
+                <ui:repeat value="#{header}" var="h">
+                    <tr>
+                        <td>#{h.key}</td>
+                        <td>#{h.value}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+            <h3>Cookies</h3>
+            <table>
+                <ui:repeat value="#{cookie}" var="c">
+                    <tr>
+                        <td>#{c.key}</td>
+                        <td>#{c.value}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+            <h3>Init Params</h3>
+            <table>
+                <ui:repeat value="#{initParam}" var="i">
+                    <tr>
+                        <td>#{i.key}</td>
+                        <td>#{i.value}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+            <h3>Application Scope</h3>
+            <table>
+                <ui:repeat value="#{applicationScope}" var="a">
+                    <tr>
+                        <td>#{a.key}</td>
+                        <td>#{a.value}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+        </h:body>
+    </f:view>
 </html>

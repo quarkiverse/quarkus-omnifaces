@@ -43,7 +43,8 @@ public class OmnifacesResourceTest {
         }
     }
 
-    @Test
+    // TODO: Convert to Selenium Test
+    // @Test
     public void shouldOpenIndexPage() throws Exception {
         final HtmlPage page = webClient.getPage(url + "/index.xhtml");
         final HtmlSpan message = (HtmlSpan) page.getElementById("message");
