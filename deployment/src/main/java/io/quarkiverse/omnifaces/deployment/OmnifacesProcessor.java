@@ -66,7 +66,7 @@ class OmnifacesProcessor {
             ValidatorManager.class,
             ViewScopeManager.class,
             ConverterManager.class,
-            ClientWindowScopeContextualStorageHolder.class
+            ClientWindowScopeContextualStorageHolder.class // TODO: Remove in MyFaces 4.0.1
     };
 
     private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {
@@ -152,6 +152,10 @@ class OmnifacesProcessor {
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[0])));
+
+        // TODO: Remove in MyFaces 4.0.1
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, true,
+                "jakarta.faces.context._MyFacesExternalContextHelper"));
     }
 
     @BuildStep
