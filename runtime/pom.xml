@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.quarkiverse.omnifaces</groupId>
         <artifactId>quarkus-omnifaces-parent</artifactId>
-        <version>4.1.0-SNAPSHOT</version>
+        <version>4.1.0</version>
     </parent>
     <artifactId>quarkus-omnifaces</artifactId>
     <name>Quarkus OmniFaces - Runtime</name>
