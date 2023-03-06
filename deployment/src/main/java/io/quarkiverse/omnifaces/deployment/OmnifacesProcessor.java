@@ -151,11 +151,11 @@ class OmnifacesProcessor {
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
 
-        reflectiveClass.produce(new ReflectiveClassBuildItem(true, false, classNames.toArray(new String[0])));
+        reflectiveClass.produce(ReflectiveClassBuildItem.builder(classNames.toArray(new String[0])).methods(true).build());
 
         // TODO: Remove in MyFaces 4.0.1
-        reflectiveClass.produce(new ReflectiveClassBuildItem(true, true,
-                "jakarta.faces.context._MyFacesExternalContextHelper"));
+        reflectiveClass.produce(ReflectiveClassBuildItem.builder("jakarta.faces.context._MyFacesExternalContextHelper")
+                .methods(true).fields(true).build());
     }
 
     @BuildStep
