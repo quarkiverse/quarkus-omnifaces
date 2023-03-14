@@ -10,7 +10,7 @@
     <name>Quarkus OmniFaces - Deployment</name>
     <dependencies>
         <dependency>
-            <groupId>io.quarkiverse.omnifaces</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>quarkus-omnifaces</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -41,6 +41,14 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jsonp-deployment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-mutiny-deployment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-vertx-http-dev-ui-spi</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
