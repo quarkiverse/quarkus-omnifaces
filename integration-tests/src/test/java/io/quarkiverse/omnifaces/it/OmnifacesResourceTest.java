@@ -39,6 +39,7 @@ public class OmnifacesResourceTest {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
         chromeOptions.addArguments("--headless=new");
+        chromeOptions.addArguments("--remote-allow-origins=*");
         Map<String, Object> chromePrefs = new HashMap<>();
         chromePrefs.put("download.prompt_for_download", false);
         chromePrefs.put("download.directory_upgrade", true);
