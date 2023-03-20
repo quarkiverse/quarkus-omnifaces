@@ -7,6 +7,7 @@ import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.devui.spi.JsonRPCProvidersBuildItem;
 import io.quarkus.devui.spi.page.CardPageBuildItem;
+import io.quarkus.devui.spi.page.ExternalPageBuilder;
 import io.quarkus.devui.spi.page.Page;
 import io.quarkus.devui.spi.page.PageBuilder;
 import io.quarkus.omnifaces.runtime.OmniFacesJsonRPCService;
@@ -22,21 +23,21 @@ public class OmnifacesDevUIProcessor {
     void createCard(BuildProducer<CardPageBuildItem> cardPageBuildItemBuildProducer) {
         final CardPageBuildItem card = new CardPageBuildItem(EXTENSION_NAME);
 
-        final PageBuilder versionPage = Page.externalPageBuilder("Version")
+        final PageBuilder<ExternalPageBuilder> versionPage = Page.externalPageBuilder("Version")
                 .icon("font-awesome-solid:book")
                 .url("https://omnifaces.org/")
                 .isHtmlContent()
                 .staticLabel(WebXml.class.getPackage().getImplementationVersion());
         card.addPage(versionPage);
 
-        final PageBuilder localePage = Page.externalPageBuilder("Locale")
+        final PageBuilder<ExternalPageBuilder> localePage = Page.externalPageBuilder("Locale")
                 .icon("font-awesome-solid:location-dot")
                 .url("https://omnifaces.org/")
                 .isHtmlContent()
                 .dynamicLabelJsonRPCMethodName("getLocale");
         card.addPage(localePage);
 
-        final PageBuilder sessionPage = Page.externalPageBuilder("Session Timeout")
+        final PageBuilder<ExternalPageBuilder> sessionPage = Page.externalPageBuilder("Session Timeout")
                 .icon("font-awesome-regular:hourglass")
                 .url("https://omnifaces.org/")
                 .isHtmlContent()
