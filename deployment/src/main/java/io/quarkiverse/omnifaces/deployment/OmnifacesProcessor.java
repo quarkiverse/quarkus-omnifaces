@@ -34,6 +34,7 @@ import io.quarkus.arc.deployment.BeanDefiningAnnotationBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem.ContextConfiguratorBuildItem;
 import io.quarkus.arc.deployment.CustomScopeBuildItem;
+import io.quarkus.arc.deployment.KnownCompatibleBeanArchiveBuildItem;
 import io.quarkus.arc.processor.AnnotationsTransformer;
 import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
@@ -124,6 +125,12 @@ class OmnifacesProcessor {
     void produceNativeResources(BuildProducer<NativeImageResourceBuildItem> nativeImageResourceProducer) {
         nativeImageResourceProducer
                 .produce(new NativeImageResourceBuildItem("META-INF/maven/org.omnifaces/omnifaces/pom.properties"));
+    }
+
+    @BuildStep
+    void produceKnownCompatible(BuildProducer<KnownCompatibleBeanArchiveBuildItem> knownCompatibleProducer) {
+        // GitHub #62: bean discovery mode in beans.xml
+        knownCompatibleProducer.produce(new KnownCompatibleBeanArchiveBuildItem("org.omnifaces", "omnifaces"));
     }
 
     @BuildStep
