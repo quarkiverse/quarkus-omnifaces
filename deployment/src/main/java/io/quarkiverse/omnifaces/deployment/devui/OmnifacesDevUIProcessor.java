@@ -21,26 +21,26 @@ public class OmnifacesDevUIProcessor {
 
     @BuildStep(onlyIf = IsDevelopment.class)
     void createCard(BuildProducer<CardPageBuildItem> cardPageBuildItemBuildProducer) {
-        final CardPageBuildItem card = new CardPageBuildItem(EXTENSION_NAME);
+        final CardPageBuildItem card = new CardPageBuildItem();
 
         final PageBuilder<ExternalPageBuilder> versionPage = Page.externalPageBuilder("Version")
                 .icon("font-awesome-solid:book")
                 .url("https://omnifaces.org/")
-                .isHtmlContent()
+                .doNotEmbed()
                 .staticLabel(WebXml.class.getPackage().getImplementationVersion());
         card.addPage(versionPage);
 
         final PageBuilder<ExternalPageBuilder> localePage = Page.externalPageBuilder("Locale")
                 .icon("font-awesome-solid:location-dot")
                 .url("https://omnifaces.org/")
-                .isHtmlContent()
+                .doNotEmbed()
                 .dynamicLabelJsonRPCMethodName("getLocale");
         card.addPage(localePage);
 
         final PageBuilder<ExternalPageBuilder> sessionPage = Page.externalPageBuilder("Session Timeout")
                 .icon("font-awesome-regular:hourglass")
                 .url("https://omnifaces.org/")
-                .isHtmlContent()
+                .doNotEmbed()
                 .dynamicLabelJsonRPCMethodName("getSessionTimeout");
         card.addPage(sessionPage);
 
@@ -51,6 +51,6 @@ public class OmnifacesDevUIProcessor {
 
     @BuildStep(onlyIf = IsDevelopment.class)
     JsonRPCProvidersBuildItem createJsonRPCService() {
-        return new JsonRPCProvidersBuildItem(EXTENSION_NAME, OmniFacesJsonRPCService.class);
+        return new JsonRPCProvidersBuildItem(OmniFacesJsonRPCService.class);
     }
 }
