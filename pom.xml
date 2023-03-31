@@ -8,7 +8,7 @@
     </parent>
     <groupId>io.quarkiverse.omnifaces</groupId>
     <artifactId>quarkus-omnifaces-parent</artifactId>
-    <version>4.1.2</version>
+    <version>4.1.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Quarkus OmniFaces - Parent</name>
     <description>OmniFaces - is a Faces / JSF utility library to make life easier!</description>
@@ -105,8 +105,4 @@
             </modules>
         </profile>
     </profiles>
-
-  <scm>
-    <tag>4.1.2</tag>
-  </scm>
 </project>
