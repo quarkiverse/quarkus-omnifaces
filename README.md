@@ -1,7 +1,7 @@
 # Quarkus OmniFaces
 
 [![Version](https://img.shields.io/maven-central/v/io.quarkiverse.omnifaces/quarkus-omnifaces?logo=apache-maven&style=flat-square)](https://search.maven.org/artifact/io.quarkiverse.omnifaces/quarkus-omnifaces)
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 [![Quarkus ecosystem CI](https://github.com/quarkiverse/quarkus-omnifaces/actions/workflows/quarkus-snapshot.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-omnifaces/actions/workflows/quarkus-snapshot.yaml)
 [![Stackoverflow](https://img.shields.io/badge/StackOverflow-omnifaces-chocolate.svg)](https://stackoverflow.com/questions/tagged/omnifaces)
@@ -51,12 +51,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="http://melloware.com"><img src="https://avatars.githubusercontent.com/u/4399574?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Melloware</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=melloware" title="Code">💻</a> <a href="#maintenance-melloware" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="http://rpestano.wordpress.com"><img src="https://avatars.githubusercontent.com/u/1592273?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rafael Pestano</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=rmpestano" title="Code">💻</a> <a href="#maintenance-rmpestano" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="https://balusc.omnifaces.org"><img src="https://avatars.githubusercontent.com/u/173372?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Bauke Scholtz</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=BalusC" title="Code">💻</a> <a href="#maintenance-BalusC" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="http://arjan-tijms.omnifaces.org"><img src="https://avatars.githubusercontent.com/u/3037006?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Arjan Tijms</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=arjantijms" title="Code">💻</a> <a href="#maintenance-arjantijms" title="Maintenance">🚧</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="http://melloware.com"><img src="https://avatars.githubusercontent.com/u/4399574?v=4?s=100" width="100px;" alt="Melloware"/><br /><sub><b>Melloware</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=melloware" title="Code">💻</a> <a href="#maintenance-melloware" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://rpestano.wordpress.com"><img src="https://avatars.githubusercontent.com/u/1592273?v=4?s=100" width="100px;" alt="Rafael Pestano"/><br /><sub><b>Rafael Pestano</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=rmpestano" title="Code">💻</a> <a href="#maintenance-rmpestano" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://balusc.omnifaces.org"><img src="https://avatars.githubusercontent.com/u/173372?v=4?s=100" width="100px;" alt="Bauke Scholtz"/><br /><sub><b>Bauke Scholtz</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=BalusC" title="Code">💻</a> <a href="#maintenance-BalusC" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://arjan-tijms.omnifaces.org"><img src="https://avatars.githubusercontent.com/u/3037006?v=4?s=100" width="100px;" alt="Arjan Tijms"/><br /><sub><b>Arjan Tijms</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=arjantijms" title="Code">💻</a> <a href="#maintenance-arjantijms" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.phillip-kruger.com"><img src="https://avatars.githubusercontent.com/u/6836179?v=4?s=100" width="100px;" alt="Phillip Krüger"/><br /><sub><b>Phillip Krüger</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/issues?q=author%3Aphillip-kruger" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->

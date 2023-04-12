@@ -44,6 +44,15 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "phillip-kruger",
+      "name": "Phillip Krüger",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6836179?v=4",
+      "profile": "http://www.phillip-kruger.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -51,5 +60,6 @@
   "projectOwner": "quarkiverse",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
