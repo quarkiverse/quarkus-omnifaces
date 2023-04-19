@@ -27,6 +27,7 @@ import org.omnifaces.cdi.eager.EagerBeansRepository;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
+import org.omnifaces.resourcehandler.WebAppManifest;
 
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.arc.deployment.AnnotationsTransformerBuildItem;
@@ -35,6 +36,7 @@ import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem.ContextConfiguratorBuildItem;
 import io.quarkus.arc.deployment.CustomScopeBuildItem;
 import io.quarkus.arc.deployment.KnownCompatibleBeanArchiveBuildItem;
+import io.quarkus.arc.deployment.UnremovableBeanBuildItem;
 import io.quarkus.arc.processor.AnnotationsTransformer;
 import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
@@ -165,6 +167,14 @@ class OmnifacesProcessor {
                 .methods(true).fields(true).build());
     }
 
+    @Record(ExecutionTime.STATIC_INIT)
+    @BuildStep
+    void registerWebManifests(OmniFacesRecorder recorder, BuildProducer<UnremovableBeanBuildItem> unremovableBeans) {
+        // make WebManifest beans unremovable, users still have to make them beans
+        // https://github.com/quarkiverse/quarkus-omnifaces/issues/72
+        unremovableBeans.produce(UnremovableBeanBuildItem.beanTypes(WebAppManifest.class));
+    }
+
     @BuildStep
     void substrateResourceBuildItems(BuildProducer<NativeImageResourceBuildItem> nativeImageResourceProducer,
             BuildProducer<NativeImageResourceBundleBuildItem> resourceBundleBuildItem) {
@@ -193,7 +203,8 @@ class OmnifacesProcessor {
      * annotations for ApplicationScoped and Startup.
      */
     @BuildStep
-    AnnotationsTransformerBuildItem transformBeanScope() {
+    AnnotationsTransformerBuildItem transformBeanScope(CombinedIndexBuildItem combinedIndex) {
+
         return new AnnotationsTransformerBuildItem(new AnnotationsTransformer() {
             @Override
             public boolean appliesTo(AnnotationTarget.Kind kind) {
@@ -202,9 +213,10 @@ class OmnifacesProcessor {
 
             @Override
             public void transform(AnnotationsTransformer.TransformationContext ctx) {
+
                 if (ctx.isClass()) {
-                    ClassInfo clazz = ctx.getTarget().asClass();
-                    Map<DotName, List<AnnotationInstance>> annotations = clazz.annotationsMap();
+                    final ClassInfo clazz = ctx.getTarget().asClass();
+                    final Map<DotName, List<AnnotationInstance>> annotations = clazz.annotationsMap();
                     if (annotations.containsKey(OMNIFACES_STARTUP)) {
                         LOGGER.debugf("OmniFaces found @%s annotations on a class %s - adding @ApplicationScoped",
                                 OMNIFACES_STARTUP, ctx.getTarget());
@@ -229,9 +241,18 @@ class OmnifacesProcessor {
                     .getClassesInPackage(aPackage)
                     .stream()
                     .map(ClassInfo::toString)
-                    .collect(Collectors.toList());
+                    .toList();
             classes.addAll(packageClasses);
         }
+        return classes;
+    }
+
+    private List<String> collectSubclasses(CombinedIndexBuildItem combinedIndex, String className) {
+        List<String> classes = combinedIndex.getIndex()
+                .getAllKnownSubclasses(DotName.createSimple(className))
+                .stream()
+                .map(ClassInfo::toString)
+                .collect(Collectors.toList());
         return classes;
     }
 
