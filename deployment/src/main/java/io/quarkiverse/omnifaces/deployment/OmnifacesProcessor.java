@@ -170,7 +170,7 @@ class OmnifacesProcessor {
     @Record(ExecutionTime.STATIC_INIT)
     @BuildStep
     void registerWebManifests(OmniFacesRecorder recorder, BuildProducer<UnremovableBeanBuildItem> unremovableBeans) {
-        // make WebManifest beans unremovable, users still have to make them beans
+        // make WebManifest beans un-removable, users still have to make them beans
         // https://github.com/quarkiverse/quarkus-omnifaces/issues/72
         unremovableBeans.produce(UnremovableBeanBuildItem.beanTypes(WebAppManifest.class));
     }
