@@ -50,6 +50,13 @@
         <param-name>org.omnifaces.COMBINED_RESOURCE_HANDLER_DISABLED</param-name>
         <param-value>false</param-value>
     </context-param>
+
+    <!-- Extensionless mapping -->
+    <context-param>
+        <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>
+        <param-value>/*.xhtml</param-value>
+    </context-param>
+
     
 <!-- UTF-8 Encoding filter over the default ISO-8859-1. -->
     <filter>
