@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import org.apache.myfaces.cdi.clientwindow.ClientWindowScopeContextualStorageHolder;
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
 import org.jboss.jandex.ClassInfo;
@@ -68,8 +67,7 @@ class OmnifacesProcessor {
             EagerBeansRepository.class,
             ValidatorManager.class,
             ViewScopeManager.class,
-            ConverterManager.class,
-            ClientWindowScopeContextualStorageHolder.class // TODO: Remove in MyFaces 4.0.1
+            ConverterManager.class
     };
 
     private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {
@@ -161,10 +159,6 @@ class OmnifacesProcessor {
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
 
         reflectiveClass.produce(ReflectiveClassBuildItem.builder(classNames.toArray(new String[0])).methods(true).build());
-
-        // TODO: Remove in MyFaces 4.0.1
-        reflectiveClass.produce(ReflectiveClassBuildItem.builder("jakarta.faces.context._MyFacesExternalContextHelper")
-                .methods(true).fields(true).build());
     }
 
     @Record(ExecutionTime.STATIC_INIT)
