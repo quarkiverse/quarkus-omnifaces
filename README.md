@@ -1,13 +1,16 @@
+<div align="center">
+    <a href="https://omnifaces.org/" alt="OmniFaces"><img src="https://github.com/quarkiverse/quarkus-omnifaces/blob/main/docs/modules/ROOT/assets/images/omnifaces.png" /></a>
+ 
 # Quarkus OmniFaces
+</div>
+<br>
+
 
 [![Version](https://img.shields.io/maven-central/v/io.quarkiverse.omnifaces/quarkus-omnifaces?logo=apache-maven&style=flat-square)](https://search.maven.org/artifact/io.quarkiverse.omnifaces/quarkus-omnifaces)
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 [![Quarkus ecosystem CI](https://github.com/quarkiverse/quarkus-omnifaces/actions/workflows/quarkus-snapshot.yaml/badge.svg)](https://github.com/quarkiverse/quarkus-omnifaces/actions/workflows/quarkus-snapshot.yaml)
 [![Stackoverflow](https://img.shields.io/badge/StackOverflow-omnifaces-chocolate.svg)](https://stackoverflow.com/questions/tagged/omnifaces)
-
-[![Quarkus OmniFaces Logo](https://github.com/quarkiverse/quarkus-omnifaces/blob/main/docs/modules/ROOT/assets/images/omnifaces.png)](https://omnifaces.org/)
-
 
 ## Overview
 
