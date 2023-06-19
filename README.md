@@ -1,7 +1,7 @@
 <div align="center">
     <a href="https://omnifaces.org/" alt="OmniFaces">
         <img src="https://github.com/quarkiverse/quarkus-quinoa/blob/main/docs/modules/ROOT/assets/images/quarkus.svg" width="67" height="70" >
-        <img src="https://github.com/quarkiverse/quarkus-quinoa/blob/main/docs/modules/ROOT/assets/images/plus-sign.svg" height="70" >
+        <img src="https://github.com/quarkiverse/quarkus-omnifaces/blob/main/docs/modules/ROOT/assets/images/plus-sign.svg" height="70" >
         <img src="https://github.com/quarkiverse/quarkus-omnifaces/blob/main/docs/modules/ROOT/assets/images/omnifaces.png" height="70" />
     </a>
  
