@@ -1,5 +1,5 @@
 name: quarkus-omnifaces
-title: Quarkus Omnifaces
+title: Omnifaces
 version: dev
 nav:
   - modules/ROOT/nav.adoc
