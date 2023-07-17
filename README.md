@@ -24,7 +24,7 @@ This extension was previously written by the AdminFaces team and hosted [here](h
 
 ## Getting started
 
-Read the full [OmniFaces documentation](https://quarkiverse.github.io/quarkiverse-docs/quarkus-omnifaces/dev/).
+Read the full [OmniFaces documentation](https://docs.quarkiverse.io/quarkus-omnifaces/dev/index.html).
 
 ### Prerequisite
 
