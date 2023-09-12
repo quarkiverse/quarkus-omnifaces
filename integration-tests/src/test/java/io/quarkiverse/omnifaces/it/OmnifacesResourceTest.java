@@ -3,65 +3,43 @@ package io.quarkiverse.omnifaces.it;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Response;
+
+import io.quarkiverse.playwright.InjectPlaywright;
+import io.quarkiverse.playwright.WithPlaywright;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
+@WithPlaywright
 public class OmnifacesResourceTest {
 
-    @TestHTTPResource
-    URL url;
+    @InjectPlaywright
+    BrowserContext context;
 
-    static WebDriver driver;
-
-    @BeforeAll
-    public static void initWebClient() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeEach
-    void setup() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-        chromeOptions.addArguments("--headless=new");
-        chromeOptions.addArguments("--remote-allow-origins=*");
-        Map<String, Object> chromePrefs = new HashMap<>();
-        chromePrefs.put("download.prompt_for_download", false);
-        chromePrefs.put("download.directory_upgrade", true);
-        chromePrefs.put("safebrowsing.enabled", true);
-        chromePrefs.put("profile.default_content_settings.popups", 0);
-        chromePrefs.put("download.default_directory", System.getProperty("java.io.tmpdir"));
-        chromeOptions.setExperimentalOption("prefs", chromePrefs);
-        driver = new ChromeDriver(chromeOptions);
-
-    }
-
-    @AfterAll
-    public static void closeWebClient() {
-        driver.quit();
-    }
+    @TestHTTPResource("/index.xhtml")
+    URL index;
 
     @Test
     public void shouldOpenIndexPage() throws Exception {
-        driver.get(url + "/index.xhtml");
-        assertThat(driver.getTitle()).isEqualTo("Quarkiverse OmniFaces");
-        final WebElement message = driver.findElement(By.id("message"));
+        final Page page = context.newPage();
+        Response response = page.navigate(index.toString());
+        Assertions.assertEquals("OK", response.statusText());
+
+        page.waitForLoadState();
+
+        String title = page.title();
+        Assertions.assertEquals("Quarkiverse OmniFaces", title);
+
+        Locator message = page.locator("#message");
         assertThat(message).isNotNull();
-        assertThat(message.getText()).isEqualTo("Hello from OmniFaces ViewScope!");
+        assertThat(message.innerText()).isEqualTo("Hello from OmniFaces ViewScope!");
     }
 }
