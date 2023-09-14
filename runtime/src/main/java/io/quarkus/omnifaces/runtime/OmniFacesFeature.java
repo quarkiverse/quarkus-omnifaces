@@ -11,7 +11,6 @@ public class OmniFacesFeature implements Feature {
     @Override
     public void afterRegistration(AfterRegistrationAccess access) {
         final RuntimeClassInitializationSupport runtimeInit = ImageSingletons.lookup(RuntimeClassInitializationSupport.class);
-
         runtimeInit.initializeAtRunTime("org.omnifaces.config.WebXmlSingleton", REASON);
     }
 

@@ -157,8 +157,11 @@ class OmnifacesProcessor {
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.el.functions"));
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
+        // MyFaces
+        classNames.addAll(collectImplementors(combinedIndex, Map.Entry.class.getName()));
 
-        reflectiveClass.produce(ReflectiveClassBuildItem.builder(classNames.toArray(new String[0])).methods(true).build());
+        reflectiveClass.produce(
+                ReflectiveClassBuildItem.builder(classNames.toArray(new String[0])).methods(true).build());
     }
 
     @Record(ExecutionTime.STATIC_INIT)
@@ -247,7 +250,17 @@ class OmnifacesProcessor {
                 .stream()
                 .map(ClassInfo::toString)
                 .collect(Collectors.toList());
+        classes.add(className);
         return classes;
     }
 
+    public List<String> collectImplementors(CombinedIndexBuildItem combinedIndex, String className) {
+        List<String> classes = combinedIndex.getIndex()
+                .getAllKnownImplementors(DotName.createSimple(className))
+                .stream()
+                .map(ClassInfo::toString)
+                .collect(Collectors.toList());
+        classes.add(className);
+        return classes;
+    }
 }
