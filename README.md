@@ -41,7 +41,7 @@ The versioning of this extension will follow the pattern `[faces.version].[omnif
 | Version | Explanation |
 | --- | --- |
 | 3.14.3 | Quarkus 2 (EE8), OmniFaces 3, Revision 3 |
-| 4.2.0 | Quarkus 3 (EEE10), OmniFaces 4, Revision 0 |
+| 4.3.0 | Quarkus 3 (EEE10), OmniFaces 4, Revision 0 |
 
 ## Showcase
 
