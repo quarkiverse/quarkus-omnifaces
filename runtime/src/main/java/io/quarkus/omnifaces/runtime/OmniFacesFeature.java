@@ -9,7 +9,7 @@ public class OmniFacesFeature implements Feature {
 
     @Override
     public void afterRegistration(AfterRegistrationAccess access) {
-        RuntimeClassInitialization.initializeAtRunTime("org.omnifaces.config.WebXmlSingleton", REASON);
+        RuntimeClassInitialization.initializeAtRunTime("org.omnifaces.config.WebXmlSingleton");
     }
 
     @Override
