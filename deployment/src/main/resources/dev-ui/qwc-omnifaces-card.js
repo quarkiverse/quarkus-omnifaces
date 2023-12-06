@@ -3,8 +3,6 @@ import { pages } from 'build-time-data';
 import {JsonRpc} from 'jsonrpc';
 import 'qwc/qwc-extension-link.js';
 
-// deprecated. From CR2 onwards this will be passed in at a property (extensionName)
-const NAME = "OmniFaces";
 export class QwcOmniFacesCard extends LitElement {
 
     jsonRpc = new JsonRpc(this);
@@ -49,9 +47,6 @@ export class QwcOmniFacesCard extends LitElement {
 
     constructor() {
         super();
-        if(!this.extensionName){
-            this.extensionName = NAME;
-        }
     }
 
     connectedCallback() {
