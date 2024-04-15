@@ -30,7 +30,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.version>3.8.3</quarkus.version>
     <myfaces.version>4.0.2</myfaces.version>
-    <omnifaces.version>4.3</omnifaces.version>
+    <omnifaces.version>4.4</omnifaces.version>
   </properties>
   <dependencyManagement>
     <dependencies>
