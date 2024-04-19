@@ -157,8 +157,6 @@ class OmnifacesProcessor {
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.el.functions"));
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
-        // MyFaces
-        classNames.addAll(collectImplementors(combinedIndex, Map.Entry.class.getName()));
 
         reflectiveClass.produce(
                 ReflectiveClassBuildItem.builder(classNames.toArray(new String[0])).methods(true).build());
