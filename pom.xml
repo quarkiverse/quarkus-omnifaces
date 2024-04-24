@@ -25,7 +25,7 @@
     </scm>
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
-        <quarkus.version>3.8.3</quarkus.version>
+        <quarkus.version>3.10.0</quarkus.version>
         <myfaces.version>4.0.2</myfaces.version>
         <omnifaces.version>4.4</omnifaces.version>
     </properties>
