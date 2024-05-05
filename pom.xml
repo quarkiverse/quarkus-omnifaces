@@ -8,7 +8,7 @@
     </parent>
     <groupId>io.quarkiverse.omnifaces</groupId>
     <artifactId>quarkus-omnifaces-parent</artifactId>
-    <version>999-SNAPSHOT</version>
+    <version>4.4.1</version>
     <packaging>pom</packaging>
     <name>Quarkus OmniFaces - Parent</name>
     <description>OmniFaces - is a Faces / JSF utility library to make life easier!</description>
@@ -21,7 +21,7 @@
         <connection>:git:git@github.com:quarkiverse/quarkus-omnifaces.git</connection>
         <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-omnifaces.git</developerConnection>
         <url>https://github.com/quarkiverse/quarkus-omnifaces</url>
-        <tag>HEAD</tag>
+        <tag>4.4.1</tag>
     </scm>
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
@@ -69,7 +69,7 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
-            <snapshots/>
+            <snapshots />
         </repository>
     </repositories>
     <build>
