@@ -71,6 +71,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "zakhdar",
+      "name": "zakhdar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56843747?v=4",
+      "profile": "http://www.activi.link",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
