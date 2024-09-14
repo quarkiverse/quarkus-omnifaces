@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
 
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
@@ -62,6 +64,10 @@ class OmnifacesProcessor {
     private static final String FEATURE = "omnifaces";
     static final DotName OMNIFACES_STARTUP = DotName.createSimple(Startup.class.getName());
     static final DotName OMNIFACES_EAGER = DotName.createSimple(Eager.class.getName());
+    // DotName representations for `@Inject` and `@Param`
+    static final DotName INJECT_ANNOTATION = DotName.createSimple(Inject.class.getName());
+    static final DotName PRODUCES_ANNOTATION = DotName.createSimple(Produces.class.getName());
+    static final DotName OMNIFACES_PARAM = DotName.createSimple(Param.class);
 
     private static final Class[] BEAN_CLASSES = {
             EagerBeansRepository.class,
@@ -225,6 +231,33 @@ class OmnifacesProcessor {
                 }
             }
         });
+    }
+
+    @BuildStep
+    public void transformParam(BuildProducer<AnnotationsTransformerBuildItem> annotationsTransformer) {
+
+        annotationsTransformer.produce(new AnnotationsTransformerBuildItem(new AnnotationsTransformer() {
+
+            @Override
+            public boolean appliesTo(AnnotationTarget.Kind kind) {
+                // This transformer applies to fields and methods
+                return kind == AnnotationTarget.Kind.FIELD || kind == AnnotationTarget.Kind.METHOD;
+            }
+
+            @Override
+            public void transform(TransformationContext context) {
+                // Check if the element has `@Param`
+                if (context.getAnnotations().stream().anyMatch(annotation -> annotation.name().equals(OMNIFACES_PARAM))) {
+                    // Check if `@Inject` is already present
+                    if (context.getAnnotations().stream()
+                            .noneMatch(annotation -> annotation.name().equals(INJECT_ANNOTATION)
+                                    || annotation.name().equals(PRODUCES_ANNOTATION))) {
+                        // Add `@Inject` if not present
+                        context.transform().add(INJECT_ANNOTATION).done();
+                    }
+                }
+            }
+        }));
     }
 
     public List<String> collectClassesInPackage(CombinedIndexBuildItem combinedIndex, String packageName) {
