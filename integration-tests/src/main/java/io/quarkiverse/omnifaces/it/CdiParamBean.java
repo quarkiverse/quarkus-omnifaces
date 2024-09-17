@@ -7,13 +7,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.FacesException;
-import jakarta.faces.convert.DateTimeConverter;
 import jakarta.faces.validator.LengthValidator;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -47,12 +45,6 @@ public class CdiParamBean {
     @Param
     Integer number;
 
-    // Like <f:viewParam name="date" value="#{bean.date}" converterMessage="..."><f:convertDateTime pattern="yyyyMMdd">
-    @Inject
-    @Param(converterClass = DateTimeConverter.class, converterAttributes = {
-            @Attribute(name = "pattern", value = "yyyyMMdd") }, converterMessage = "{1}: \"{0}\" is not the date format we had in mind! Please use the format yyyyMMdd.")
-    Date date;
-
     private String result;
 
     @PostConstruct
@@ -62,8 +54,8 @@ public class CdiParamBean {
             return;
         }
 
-        result = String.format("You entered text1 '%s', text2 '%s', text3 '%s', number '%d', date '%5$tY%5$tm%5$td'", text1,
-                text2, text3, number, date);
+        result = String.format("You entered text1 '%s', text2 '%s', text3 '%s', number '%d'", text1,
+                text2, text3, number);
 
         Messages.addGlobalInfo("Yes, no validation errors!");
     }
