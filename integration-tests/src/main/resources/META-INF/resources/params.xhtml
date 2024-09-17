@@ -1,0 +1,115 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets" 
+    xmlns:o="http://omnifaces.org/ui" 
+    xmlns:of="http://omnifaces.org/functions">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>CDI Params</title>
+            <link rel="manifest" href="#{resource['omnifaces:manifest.json']}" crossorigin="use-credentials" />
+			<style>
+.messages {
+	margin: 1em 0;
+	padding: 0;
+}
+
+.messages li {
+	list-style-type: none;
+	padding: .3em;
+	color: white;
+	font-size: 1.4em;
+	box-shadow: .1em .1em .2em #ccc;
+}
+
+.messages li:first-child {
+	border-radius: .2em .2em 0 0;
+}
+
+.messages li:last-child {
+	border-radius: 0 0 .2em .2em;
+}
+
+.messages li:only-child {
+	border-radius: .2em;
+}
+
+.messages .info {
+	background: yellowgreen;
+}
+
+.messages .warn {
+	background: orange;
+}
+
+.messages .error {
+	background: orangered;
+}
+
+.messages .fatal {
+	background: maroon;
+}
+</style>
+        </h:head>
+        <h:body>
+            <p>Click the links below:</p>
+<ul>
+    <li>
+        <h:link id="lnkSetParams" value="Set all params">
+            <f:param name="text1" value="foo" />
+            <f:param name="text2" value="bar" />
+            <f:param name="text3" value="baz1" />
+            <f:param name="text3" value="baz2" />
+            <f:param name="number" value="42" />
+            <f:param name="date" value="19780326" />
+        </h:link>
+    </li>
+    <li>
+        <h:link value="Omit required param and set wrong values on others">
+            <f:param name="text2" value="x" />
+            <f:param name="number" value="NaN" />
+            <f:param name="date" value="26 Mar 1978" />
+        </h:link>
+    </li>
+</ul>
+<p>The following parameters will be injected and validated as:</p>
+<ul>
+    <li>"text1" is injected as <code>String</code> and is validated as Faces <code>required="true"</code></li>
+    <li>"text2" is injected as <code>String</code> and is validated as 
+        Faces <code>&lt;f:validateLength minimum="3"&gt;
+    </code></li>
+    <li>"text3" is injected as <code>List&lt;String&gt;</code> and is validated as JSR303 (Bean Validation) <code>@NotNull</code></li>
+    <li>"number" is injected as <code>Integer</code> with automatic Faces integer conversion</li>
+    <li>"date" is injected as <code>Date</code> and is converted as 
+        Faces <code>&lt;f:convertDateTime pattern="yyyyMMdd"&gt;</code>
+    </li>
+    <li>"nsEntity" is injected as <code>ParamValue&lt;NonSerializableEntity&gt;</code> and is 
+        converted as Faces <code>&lt;f:converter converterId="nonSerializableEntityConverter"/&gt;</code>
+        <small>(the example also demonstrates support for non-serializable values, which is important for CDI's passivating scopes)</small>
+    </li>
+</ul>
+
+<p>Result: #{cdiParamBean.result}</p>
+<h:messages id="messages" styleClass="messages" infoClass="info" errorClass="error" />
+        </h:body>
+    </f:view>
+</html>

@@ -69,9 +69,9 @@ import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
 
 class OmnifacesProcessor {
 
-    private static final Logger LOGGER = Logger.getLogger("OmnifacesProcessor");
-
+    private static final Logger LOGGER = Logger.getLogger("OmniFaces");
     private static final String FEATURE = "omnifaces";
+
     static final DotName OMNIFACES_STARTUP = DotName.createSimple(Startup.class.getName());
     static final DotName OMNIFACES_EAGER = DotName.createSimple(Eager.class.getName());
     static final DotName OMNIFACES_PARAM = DotName.createSimple(Param.class.getName());
@@ -203,15 +203,21 @@ class OmnifacesProcessor {
         resourceBundleBuildItem.produce(new NativeImageResourceBundleBuildItem("org.omnifaces.messages"));
     }
 
+    /**
+     * Builds development-specific initialization parameters.
+     * This method is only executed in development mode.
+     *
+     * @param initParam The producer for servlet initialization parameters
+     */
     @BuildStep(onlyIf = IsDevelopment.class)
     void buildDevelopmentInitParams(BuildProducer<ServletInitParamBuildItem> initParam) {
-        //disables combined resource handler in dev mode
+        // Disables combined resource handler in dev mode
         initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
     }
 
     /**
-     * Replace {@link org.omnifaces.cdi.Eager} and {@link org.omnifaces.cdi.Startup with the Quarkus equivalent
-     * annotations for ApplicationScoped and Startup.
+     * Replaces {@link org.omnifaces.cdi.Eager} and {@link org.omnifaces.cdi.Startup} with the Quarkus equivalent
+     * annotations for {@link jakarta.enterprise.context.ApplicationScoped} and {@link io.quarkus.runtime.Startup}.
      */
     @BuildStep
     AnnotationsTransformerBuildItem transformBeanScope(CombinedIndexBuildItem combinedIndex) {
@@ -243,6 +249,17 @@ class OmnifacesProcessor {
         });
     }
 
+    /**
+     * Inspects injection points for @Param annotations and creates synthetic beans for each required type.
+     *
+     * This method performs the following steps:
+     * 1. Iterates through all injection points to find those annotated with @Param.
+     * 2. Collects the required types for these injection points.
+     * 3. For each required type, creates and registers a synthetic bean.
+     *
+     * @param beanDiscoveryFinishedBuildItem Contains information about discovered beans and injection points.
+     * @param syntheticBeanBuildItemBuildProducer Producer for creating synthetic beans.
+     */
     @BuildStep
     public void inspectInjectionPoints(BeanDiscoveryFinishedBuildItem beanDiscoveryFinishedBuildItem,
             BuildProducer<SyntheticBeanBuildItem> syntheticBeanBuildItemBuildProducer) {

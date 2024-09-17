@@ -27,6 +27,9 @@ public class OmnifacesResourceTest {
     @TestHTTPResource("/index.xhtml")
     URL index;
 
+    @TestHTTPResource("/params.xhtml")
+    URL params;
+
     @Test
     public void shouldOpenIndexPage() throws Exception {
         final Page page = context.newPage();
@@ -41,5 +44,28 @@ public class OmnifacesResourceTest {
         Locator message = page.locator("#message");
         assertThat(message).isNotNull();
         assertThat(message.innerText()).isEqualTo("Hello from OmniFaces ViewScope!");
+    }
+
+    @Test
+    public void shouldOpenParamsPage() throws Exception {
+        final Page page = context.newPage();
+        Response response = page.navigate(params.toString());
+        Assertions.assertEquals("OK", response.statusText());
+
+        page.waitForLoadState();
+
+        String title = page.title();
+        Assertions.assertEquals("CDI Params", title);
+
+        Locator message = page.locator("#messages");
+        assertThat(message).isNotNull();
+        assertThat(message.innerText()).isEqualTo("text1: Validation Error: Value is required.");
+
+        // now click the link
+        Locator lnkSetParams = page.locator("#lnkSetParams");
+        lnkSetParams.click();
+
+        // check that the messages have changed
+        assertThat(message.innerText()).isEqualTo("Yes, no validation errors!");
     }
 }
