@@ -1,16 +1,24 @@
 package io.quarkiverse.omnifaces.deployment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.inject.Inject;
 
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
 import org.jboss.jandex.ClassInfo;
+import org.jboss.jandex.ClassType;
 import org.jboss.jandex.DotName;
+import org.jboss.jandex.Type;
 import org.jboss.logging.Logger;
 import org.omnifaces.cdi.ContextParam;
 import org.omnifaces.cdi.Cookie;
@@ -31,12 +39,15 @@ import org.omnifaces.resourcehandler.WebAppManifest;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.arc.deployment.AnnotationsTransformerBuildItem;
 import io.quarkus.arc.deployment.BeanDefiningAnnotationBuildItem;
+import io.quarkus.arc.deployment.BeanDiscoveryFinishedBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem;
 import io.quarkus.arc.deployment.ContextRegistrationPhaseBuildItem.ContextConfiguratorBuildItem;
 import io.quarkus.arc.deployment.CustomScopeBuildItem;
 import io.quarkus.arc.deployment.KnownCompatibleBeanArchiveBuildItem;
+import io.quarkus.arc.deployment.SyntheticBeanBuildItem;
 import io.quarkus.arc.deployment.UnremovableBeanBuildItem;
 import io.quarkus.arc.processor.AnnotationsTransformer;
+import io.quarkus.arc.processor.InjectionPointInfo;
 import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
@@ -52,6 +63,7 @@ import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeOrNativeSourcesBuild;
 import io.quarkus.omnifaces.runtime.OmniFacesFeature;
 import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
+import io.quarkus.omnifaces.runtime.ParamBeanCreator;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
 import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
 
@@ -62,6 +74,10 @@ class OmnifacesProcessor {
     private static final String FEATURE = "omnifaces";
     static final DotName OMNIFACES_STARTUP = DotName.createSimple(Startup.class.getName());
     static final DotName OMNIFACES_EAGER = DotName.createSimple(Eager.class.getName());
+    static final DotName OMNIFACES_PARAM = DotName.createSimple(Param.class.getName());
+    static final DotName INJECT_ANNOTATION = DotName.createSimple(Inject.class.getName());
+    static final DotName PRODUCES_ANNOTATION = DotName.createSimple(Produces.class.getName());
+    static final DotName INJECTION_POINT = DotName.createSimple(InjectionPoint.class.getName());
 
     private static final Class[] BEAN_CLASSES = {
             EagerBeansRepository.class,
@@ -225,6 +241,31 @@ class OmnifacesProcessor {
                 }
             }
         });
+    }
+
+    @BuildStep
+    public void inspectInjectionPoints(BeanDiscoveryFinishedBuildItem beanDiscoveryFinishedBuildItem,
+            BuildProducer<SyntheticBeanBuildItem> syntheticBeanBuildItemBuildProducer) {
+        // go through all injection points, look for those with @Param, store required types
+        Set<Type> requiredParamTypes = new HashSet<>();
+        for (InjectionPointInfo ipInfo : beanDiscoveryFinishedBuildItem.getInjectionPoints()) {
+            if (ipInfo.getRequiredQualifier(OMNIFACES_PARAM) != null) {
+                requiredParamTypes.add(ipInfo.getRequiredType());
+            }
+        }
+
+        // for each required type, register a synthetic bean
+        for (Type requiredType : requiredParamTypes) {
+            SyntheticBeanBuildItem synthBean = SyntheticBeanBuildItem.configure(DotName.createSimple(Object.class))
+                    .scope(Dependent.class)
+                    .addType(requiredType)
+                    .addQualifier(Param.class)
+                    .unremovable()
+                    .addInjectionPoint(ClassType.create(INJECTION_POINT))
+                    .creator(ParamBeanCreator.class)
+                    .done();
+            syntheticBeanBuildItemBuildProducer.produce(synthBean);
+        }
     }
 
     public List<String> collectClassesInPackage(CombinedIndexBuildItem combinedIndex, String packageName) {
