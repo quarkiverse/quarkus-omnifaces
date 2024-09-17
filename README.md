@@ -69,6 +69,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="http://www.activi.link"><img src="https://avatars.githubusercontent.com/u/56843747?v=4?s=100" width="100px;" alt="zakhdar"/><br /><sub><b>zakhdar</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/issues?q=author%3Azakhdar" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/manovotn"><img src="https://avatars.githubusercontent.com/u/4181235?v=4?s=100" width="100px;" alt="Matej Novotny"/><br /><sub><b>Matej Novotny</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=manovotn" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
