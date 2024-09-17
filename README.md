@@ -42,6 +42,9 @@ The versioning of this extension will follow the pattern `[faces.version].[omnif
 | ![3.x](https://img.shields.io/maven-central/v/io.quarkiverse.omnifaces/quarkus-omnifaces?versionPrefix=3.&color=cyan) | Quarkus 2 (EE8), OmniFaces 3 |
 | ![4.x](https://img.shields.io/maven-central/v/io.quarkiverse.omnifaces/quarkus-omnifaces?versionPrefix=4.&color=cyan) | Quarkus 3 (EE10), OmniFaces 4 |
 
+> [!IMPORTANT]  
+> `@Param` component is not supported in GraalVM Native Image mode due to complexities with how it uses Reflection to inject fields.
+
 ## Showcase
 
 A showcase example using Quarkus OmniFaces and showing Faces running in the Quarkus environment can be found on
