@@ -1,0 +1,113 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<!DOCTYPE html>
+<html lang="en"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+      xmlns:c="jakarta.tags.core"
+      xmlns:pt="jakarta.faces.passthrough"
+    xmlns:ui="jakarta.faces.facelets" 
+    xmlns:o="http://omnifaces.org/ui" 
+    xmlns:of="http://omnifaces.org/functions">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Push - Test</title>
+        </h:head>
+        <h:body>
+            <!-- NOTE: having inline script in XHTML like below is bad practice. -->
+            <!-- It's included directly in XHTML just for sake of demo. -->
+            <!-- In real world code, put it in a JS file :) -->
+
+            <script>
+                function pushListener(message, channel) {
+                    $("#" + channel + "-message").text(message).stop(true, true).effect("highlight");
+                }
+
+                function sessionCloseListener(code) {
+                    if (code == 1000) {
+                        alert("Session has expired! Page will be reloaded.");
+                        window.location.reload(true);
+                    }
+                }
+            </script>
+
+            <!-- End of bad practice ;) -->
+
+
+            <c:if test="#{empty pushTestUser}">
+                <h:form>
+                    <p>
+                        Pressing <h:commandButton value="this button" action="#{pushTestBean.open}" /> will open three web sockets and generate an user ID.
+                    </p>
+                </h:form>
+            </c:if>
+
+            <c:if test="#{not empty pushTestUser}">
+                <p>The following web sockets are opened and any push message will be printed directly thereafter:</p>
+
+                <ul>
+                    <li>Application scoped socket <strong><span id="app-message" /></strong></li>
+                    <li>Session scoped socket with user <strong><span id="sess-message" /></strong></li>
+                    <li>View scoped socket <strong><span id="view-message" /></strong></li>
+                </ul>
+
+                <o:socket channel="app" scope="application" onmessage="pushListener" />
+                <o:socket channel="sess" scope="session" user="#{pushTestUser}" onmessage="pushListener" onclose="sessionCloseListener" />
+                <o:socket channel="view" scope="view" onmessage="pushListener" />
+
+                <p>
+                    You can use the below buttons to send the current server side timestamp to those sockets.
+                    If you open the same page in a new tab/window in current browser, then you can test application/session/view scoped push.
+                    If you open the same page in an incognito window or a different browser, then you can test application scoped push.
+                </p>
+
+                <h:form>
+                    <f:ajax>
+                        <ul>
+                            <li><h:commandButton action="#{pushTestBean.pushApp}" value="push application scoped socket" /></li>
+                            <li><h:commandButton action="#{pushTestBean.pushSess}" value="push session scoped socket" /></li>
+                            <li><h:commandButton action="#{pushTestBean.pushView}" value="push view scoped socket" /></li>
+                        </ul>
+                    </f:ajax>
+                </h:form>
+
+                <p>
+                    The generated user ID of the current session is <h:inputText value="#{pushTestUser}" size="32" readonly="true" onmouseup="$(this).select()" />.
+                    Open this page in an incognito tab or a different browser to simulate a different user and test user-targeted push.
+                    Use the above user ID to target the current page over there in below form.
+                    It will send the current timestamp to the session scoped socket of the given user.
+                </p>
+
+                <h:form>
+                    <h:inputText binding="#{recipientUser}" pt:placeholder="Paste generated user ID of other user here" size="32"
+                                 required="true" requiredMessage="Seriously, paste generated user ID of other user in that input field" />
+                    <h:commandButton action="#{pushTestBean.pushUser(recipientUser.value)}" value="push session scoped socket of given user">
+                        <f:ajax execute="@form" render="@form" />
+                    </h:commandButton>
+                    <h:messages />
+                </h:form>
+
+                <p>
+                    Additionally, when the session scoped push socket is closed with reason code 1000,
+                    an annoying 90's JavaScript alert will show up telling you this fact after which the page will be reloaded.
+                </p>
+            </c:if>
+        </h:body>
+    </f:view>
+</html>

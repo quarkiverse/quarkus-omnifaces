@@ -18,10 +18,10 @@
     under the License.
 -->
 <web-app
-    xmlns="https://jakarta.ee/xml/ns/jakartaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
-    version="6.0"
+        xmlns="https://jakarta.ee/xml/ns/jakartaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+        version="6.0"
 >
 
     <welcome-file-list>
@@ -57,8 +57,13 @@
         <param-value>/*.xhtml</param-value>
     </context-param>
 
-    
-<!-- UTF-8 Encoding filter over the default ISO-8859-1. -->
+    <!-- WebSocket -->
+    <context-param>
+        <param-name>org.omnifaces.SOCKET_ENDPOINT_ENABLED</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!-- UTF-8 Encoding filter over the default ISO-8859-1. -->
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
         <filter-class>org.omnifaces.filter.CharacterEncodingFilter</filter-class>
