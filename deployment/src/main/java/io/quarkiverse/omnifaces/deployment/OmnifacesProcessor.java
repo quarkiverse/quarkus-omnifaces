@@ -9,9 +9,7 @@ import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.InjectionPoint;
-import jakarta.inject.Inject;
 
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
@@ -75,11 +73,9 @@ class OmnifacesProcessor {
     static final DotName OMNIFACES_STARTUP = DotName.createSimple(Startup.class.getName());
     static final DotName OMNIFACES_EAGER = DotName.createSimple(Eager.class.getName());
     static final DotName OMNIFACES_PARAM = DotName.createSimple(Param.class.getName());
-    static final DotName INJECT_ANNOTATION = DotName.createSimple(Inject.class.getName());
-    static final DotName PRODUCES_ANNOTATION = DotName.createSimple(Produces.class.getName());
     static final DotName INJECTION_POINT = DotName.createSimple(InjectionPoint.class.getName());
 
-    private static final Class[] BEAN_CLASSES = {
+    private static final Class<?>[] BEAN_CLASSES = {
             EagerBeansRepository.class,
             ValidatorManager.class,
             ViewScopeManager.class,
@@ -251,7 +247,7 @@ class OmnifacesProcessor {
 
     /**
      * Inspects injection points for @Param annotations and creates synthetic beans for each required type.
-     *
+     * <p>
      * This method performs the following steps:
      * 1. Iterates through all injection points to find those annotated with @Param.
      * 2. Collects the required types for these injection points.
