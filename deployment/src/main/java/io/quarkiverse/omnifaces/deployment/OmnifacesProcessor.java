@@ -28,6 +28,8 @@ import org.omnifaces.cdi.Startup;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.cdi.converter.ConverterManager;
 import org.omnifaces.cdi.eager.EagerBeansRepository;
+import org.omnifaces.cdi.push.SocketChannelManager;
+import org.omnifaces.cdi.push.SocketPushContextProducer;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
@@ -80,7 +82,10 @@ class OmnifacesProcessor {
             EagerBeansRepository.class,
             ValidatorManager.class,
             ViewScopeManager.class,
-            ConverterManager.class
+            ConverterManager.class,
+            SocketChannelManager.class,
+            SocketPushContextProducer.class,
+            SocketChannelManager.ViewScope.class
     };
 
     private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {
