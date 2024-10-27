@@ -59,6 +59,8 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeOrNativeSourcesBuild;
+import io.quarkus.info.deployment.spi.InfoBuildTimeContributorBuildItem;
+import io.quarkus.omnifaces.runtime.FacesInfoContributor;
 import io.quarkus.omnifaces.runtime.OmniFacesFeature;
 import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
 import io.quarkus.omnifaces.runtime.ParamBeanCreator;
@@ -279,6 +281,11 @@ class OmnifacesProcessor {
                     .done();
             syntheticBeanBuildItemBuildProducer.produce(synthBean);
         }
+    }
+
+    @BuildStep
+    InfoBuildTimeContributorBuildItem produceInformation() {
+        return new InfoBuildTimeContributorBuildItem(new FacesInfoContributor());
     }
 
     public List<String> collectClassesInPackage(CombinedIndexBuildItem combinedIndex, String packageName) {
