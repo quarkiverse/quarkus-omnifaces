@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
@@ -218,7 +217,7 @@ class OmnifacesProcessor {
      * annotations for {@link jakarta.enterprise.context.ApplicationScoped} and {@link io.quarkus.runtime.Startup}.
      */
     @BuildStep
-    AnnotationsTransformerBuildItem transformBeanScope(CombinedIndexBuildItem combinedIndex) {
+    AnnotationsTransformerBuildItem transformBeanScope() {
 
         return new AnnotationsTransformerBuildItem(new AnnotationsTransformer() {
             @Override
@@ -300,26 +299,6 @@ class OmnifacesProcessor {
                     .toList();
             classes.addAll(packageClasses);
         }
-        return classes;
-    }
-
-    private List<String> collectSubclasses(CombinedIndexBuildItem combinedIndex, String className) {
-        List<String> classes = combinedIndex.getIndex()
-                .getAllKnownSubclasses(DotName.createSimple(className))
-                .stream()
-                .map(ClassInfo::toString)
-                .collect(Collectors.toList());
-        classes.add(className);
-        return classes;
-    }
-
-    public List<String> collectImplementors(CombinedIndexBuildItem combinedIndex, String className) {
-        List<String> classes = combinedIndex.getIndex()
-                .getAllKnownImplementors(DotName.createSimple(className))
-                .stream()
-                .map(ClassInfo::toString)
-                .collect(Collectors.toList());
-        classes.add(className);
         return classes;
     }
 }
