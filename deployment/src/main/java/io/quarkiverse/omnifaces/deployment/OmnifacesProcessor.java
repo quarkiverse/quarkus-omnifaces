@@ -175,6 +175,8 @@ class OmnifacesProcessor {
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.el.functions"));
         // All utilities
         classNames.addAll(collectClassesInPackage(combinedIndex, "org.omnifaces.util"));
+        // socket
+        classNames.add(org.omnifaces.cdi.push.SocketEndpoint.class.getName());
 
         reflectiveClass.produce(
                 ReflectiveClassBuildItem.builder(classNames.toArray(new String[0])).methods(true).serialization(true).build());
