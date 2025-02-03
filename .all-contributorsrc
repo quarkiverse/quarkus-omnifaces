@@ -98,6 +98,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "dstutz",
+      "name": "David Stutzman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6010885?v=4",
+      "profile": "https://github.com/dstutz",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
