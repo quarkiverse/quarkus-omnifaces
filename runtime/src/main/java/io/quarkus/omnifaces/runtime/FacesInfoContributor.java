@@ -13,7 +13,7 @@ public class FacesInfoContributor implements InfoContributor {
 
     @Override
     public String name() {
-        return "faces";
+        return "Faces";
     }
 
     @Override
