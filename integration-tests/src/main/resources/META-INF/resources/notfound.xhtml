@@ -20,8 +20,7 @@
     xmlns:f="jakarta.faces.core"
     xmlns:h="jakarta.faces.html"
     xmlns:ui="jakarta.faces.facelets" 
-    xmlns:o="http://omnifaces.org/ui" 
-    xmlns:of="http://omnifaces.org/functions">
+    xmlns:o="omnifaces">
     <f:view contentType="text/html">
         <h:head>
            <title>Not Found</title>
@@ -30,7 +29,7 @@
             <hr/>
             <h3>PAGE NOT FOUND</h3>
             <ul>
-                <li>Date/time: #{of:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}</li>
+                <li>Date/time: #{o:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}</li>
                 <li>User agent: #{header['user-agent']}</li>
                 <li>User IP: #{request.remoteAddr}</li>
                 <li>Request URI: #{requestScope['javax.servlet.error.request_uri']}</li>
@@ -39,7 +38,7 @@
                 <li>Exception type: #{requestScope['javax.servlet.error.exception_type']}</li>
                 <li>Exception message: #{requestScope['javax.servlet.error.message']}</li>
                 <li>Exception UUID: #{requestScope['org.omnifaces.exception_uuid']}</li>
-                <li>Stack trace: <pre>#{of:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
+                <li>Stack trace: <pre>#{o:printStackTrace(requestScope['javax.servlet.error.exception'])}</pre>
                 </li>
             </ul>
         </h:body>

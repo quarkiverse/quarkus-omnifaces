@@ -76,7 +76,7 @@
     <!-- Apply GZIP compression on responses whenever applicable -->
     <filter>
         <filter-name>GzipResponseFilter</filter-name>
-        <filter-class>org.omnifaces.filter.GzipResponseFilter</filter-class>
+        <filter-class>org.omnifaces.filter.CompressedResponseFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>GzipResponseFilter</filter-name>

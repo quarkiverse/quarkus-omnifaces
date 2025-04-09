@@ -21,8 +21,7 @@
     xmlns:f="jakarta.faces.core"
     xmlns:h="jakarta.faces.html"
     xmlns:ui="jakarta.faces.facelets" 
-    xmlns:o="http://omnifaces.org/ui" 
-    xmlns:of="http://omnifaces.org/functions">
+    xmlns:o="omnifaces">
     <f:view contentType="text/html">
         <h:head>
             <title>Quarkiverse OmniFaces</title>
@@ -36,13 +35,13 @@
     Raw <code>Temporal#toString()</code> value of <code>\#{now}</code>: <strong>#{now}</strong> - this should represent same format as <code>java.time.ZonedDateTime</code>
                 </p>
                 <p>
-    Formatted using <code>of:formatDate()</code> function: #{of:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}
+    Formatted using <code>o:formatDate()</code> function: #{o:formatDate(now, 'yyyy-MM-dd HH:mm:ss')}
 </p>
                 <p>
     Raw <code>Temporal#toString()</code> value of <code>\#{startup}</code>: <strong>#{startup}</strong> - this should represent same format as <code>java.time.ZonedDateTime</code>
                 </p>
                 <p>
-    Formatted using <code>of:formatDate()</code> function: #{of:formatDate(startup, 'yyyy-MM-dd HH:mm:ss')}
+    Formatted using <code>o:formatDate()</code> function: #{o:formatDate(startup, 'yyyy-MM-dd HH:mm:ss')}
 </p>
                 <h:commandButton value="Refresh">
                     <f:ajax render=":form"/>
@@ -98,10 +97,10 @@
                 </tr>
             </table>
             <ul>
-                <li>Request base URL: #{of:getRequestBaseURL()}</li>
-                <li>Request domain URL: #{of:getRequestDomainURL()}</li>
-                <li>Request URL with query string: #{of:getRequestURLWithQueryString()}</li>
-                <li>Remote addr: #{of:getRemoteAddr()}</li>
+                <li>Request base URL: #{o:getRequestBaseURL()}</li>
+                <li>Request domain URL: #{o:getRequestDomainURL()}</li>
+                <li>Request URL with query string: #{o:getRequestURLWithQueryString()}</li>
+                <li>Remote addr: #{o:getRemoteAddr()}</li>
             </ul>
             <h3>Session Scope</h3>
             <table>
