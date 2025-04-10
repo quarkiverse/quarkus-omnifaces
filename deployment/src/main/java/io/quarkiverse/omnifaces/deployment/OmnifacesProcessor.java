@@ -194,6 +194,7 @@ class OmnifacesProcessor {
     void substrateResourceBuildItems(BuildProducer<NativeImageResourceBuildItem> nativeImageResourceProducer,
             BuildProducer<NativeImageResourceBundleBuildItem> resourceBundleBuildItem) {
         nativeImageResourceProducer.produce(new NativeImageResourceBuildItem(
+                "META-INF/omnifaces.taglib.xml",
                 "META-INF/omnifaces-functions.taglib.xml",
                 "META-INF/omnifaces-ui.taglib.xml",
                 "META-INF/web-fragment.xml",
