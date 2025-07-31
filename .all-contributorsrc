@@ -107,6 +107,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "mlarue",
+      "name": "Markus Lauer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6511748?v=4",
+      "profile": "https://github.com/mlarue",
+      "contributions": [
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7,
