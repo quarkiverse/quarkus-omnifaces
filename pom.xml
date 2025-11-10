@@ -26,7 +26,7 @@
         <maven.compiler.release>17</maven.compiler.release>
         <quarkus.version>3.15.4</quarkus.version>
         <myfaces.version>4.1.1</myfaces.version>
-        <omnifaces.version>5.0-M4</omnifaces.version>
+        <omnifaces.version>5.0-M5</omnifaces.version>
     </properties>
     <dependencyManagement>
         <dependencies>
