@@ -32,6 +32,8 @@ import org.omnifaces.cdi.push.SocketChannelManager;
 import org.omnifaces.cdi.push.SocketPushContextProducer;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
+import org.omnifaces.config.FacesConfigXml;
+import org.omnifaces.config.WebXml;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
 import org.omnifaces.resourcehandler.WebAppManifest;
 
@@ -188,6 +190,10 @@ class OmnifacesProcessor {
         // make WebManifest beans un-removable, users still have to make them beans
         // https://github.com/quarkiverse/quarkus-omnifaces/issues/72
         unremovableBeans.produce(UnremovableBeanBuildItem.beanTypes(WebAppManifest.class));
+
+        // https://github.com/omnifaces/omnifaces/issues/916
+        unremovableBeans.produce(UnremovableBeanBuildItem.beanTypes(FacesConfigXml.class));
+        unremovableBeans.produce(UnremovableBeanBuildItem.beanTypes(WebXml.class));
     }
 
     @BuildStep
