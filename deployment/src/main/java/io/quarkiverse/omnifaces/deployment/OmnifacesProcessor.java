@@ -69,6 +69,7 @@ import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
 import io.quarkus.omnifaces.runtime.ParamBeanCreator;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
 import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
+import io.quarkus.undertow.deployment.WebMetadataBuildItem;
 
 class OmnifacesProcessor {
 
@@ -224,6 +225,17 @@ class OmnifacesProcessor {
     void buildDevelopmentInitParams(BuildProducer<ServletInitParamBuildItem> initParam) {
         // Disables combined resource handler in dev mode
         initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
+    }
+
+    @BuildStep
+    void buildMyFacesFix(WebMetadataBuildItem webMetaDataBuildItem,
+            BuildProducer<ServletInitParamBuildItem> initParam) {
+        // MyFaces is throwing an NPE because its NULL
+        if (webMetaDataBuildItem.getWebMetaData() != null && webMetaDataBuildItem.getWebMetaData().getContextParams() == null) {
+            webMetaDataBuildItem.getWebMetaData().setContextParams(new ArrayList<>());
+        }
+        // bogus init param
+        initParam.produce(new ServletInitParamBuildItem("omnifaces", "true"));
     }
 
     /**
