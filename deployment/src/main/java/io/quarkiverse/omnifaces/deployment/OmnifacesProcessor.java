@@ -1,10 +1,6 @@
 package io.quarkiverse.omnifaces.deployment;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
@@ -103,8 +99,14 @@ class OmnifacesProcessor {
     };
 
     @BuildStep
-    FeatureBuildItem feature() {
-        return new FeatureBuildItem(FEATURE);
+    void feature(BuildProducer<FeatureBuildItem> feature, Optional<WebMetadataBuildItem> webMetadataBuildItem) {
+        feature.produce(new FeatureBuildItem(FEATURE));
+
+        // MyFaces is throwing an NPE because its NULL
+        WebMetadataBuildItem webMetadata = webMetadataBuildItem.get();
+        if (webMetadata.getWebMetaData() != null && webMetadata.getWebMetaData().getContextParams() == null) {
+            webMetadata.getWebMetaData().setContextParams(new ArrayList<>());
+        }
     }
 
     @BuildStep(onlyIf = NativeOrNativeSourcesBuild.class)
@@ -114,19 +116,13 @@ class OmnifacesProcessor {
 
     @BuildStep
     void buildCdiBeans(BuildProducer<AdditionalBeanBuildItem> additionalBean,
-            BuildProducer<BeanDefiningAnnotationBuildItem> beanDefiningAnnotation,
-            WebMetadataBuildItem webMetaDataBuildItem) {
+            BuildProducer<BeanDefiningAnnotationBuildItem> beanDefiningAnnotation) {
         for (Class<?> clazz : BEAN_CLASSES) {
             additionalBean.produce(AdditionalBeanBuildItem.unremovableOf(clazz));
         }
 
         for (String clazz : BEAN_DEFINING_ANNOTATION_CLASSES) {
             beanDefiningAnnotation.produce(new BeanDefiningAnnotationBuildItem(DotName.createSimple(clazz)));
-        }
-
-        // TODO: MyFaces is throwing an NPE because its NULL
-        if (webMetaDataBuildItem.getWebMetaData() != null && webMetaDataBuildItem.getWebMetaData().getContextParams() == null) {
-            webMetaDataBuildItem.getWebMetaData().setContextParams(new ArrayList<>());
         }
     }
 
