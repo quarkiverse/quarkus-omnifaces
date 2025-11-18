@@ -3,7 +3,6 @@ package io.quarkiverse.omnifaces.test;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -17,7 +16,6 @@ public class OmnifacesDevModeTest {
             .setArchiveProducer(() -> ShrinkWrap.create(JavaArchive.class));
 
     @Test
-    @Disabled("MyFaces NPE on WebMetaData.getContextParams() is null")
     public void writeYourOwnDevModeTest() {
         // Write your dev mode tests here - see the testing extension guide https://quarkus.io/guides/writing-extensions#testing-hot-reload for more information
         Assertions.assertTrue(true, "Add dev mode assertions to " + getClass().getName());

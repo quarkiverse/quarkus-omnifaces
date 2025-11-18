@@ -105,21 +105,6 @@
             </modules>
         </profile>
         <profile>
-            <id>skip-docs-when-native</id>
-            <activation>
-                <property>
-                    <name>native</name>
-                </property>
-            </activation>
-
-            <!-- Override docs profile by redefining modules WITHOUT docs -->
-            <modules>
-                <module>deployment</module>
-                <module>runtime</module>
-                <!-- keep integration-tests if that profile is active -->
-            </modules>
-        </profile>
-        <profile>
             <id>it</id>
             <activation>
                 <property>

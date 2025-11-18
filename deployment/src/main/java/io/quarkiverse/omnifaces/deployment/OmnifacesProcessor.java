@@ -114,13 +114,19 @@ class OmnifacesProcessor {
 
     @BuildStep
     void buildCdiBeans(BuildProducer<AdditionalBeanBuildItem> additionalBean,
-            BuildProducer<BeanDefiningAnnotationBuildItem> beanDefiningAnnotation) {
+            BuildProducer<BeanDefiningAnnotationBuildItem> beanDefiningAnnotation,
+            WebMetadataBuildItem webMetaDataBuildItem) {
         for (Class<?> clazz : BEAN_CLASSES) {
             additionalBean.produce(AdditionalBeanBuildItem.unremovableOf(clazz));
         }
 
         for (String clazz : BEAN_DEFINING_ANNOTATION_CLASSES) {
             beanDefiningAnnotation.produce(new BeanDefiningAnnotationBuildItem(DotName.createSimple(clazz)));
+        }
+
+        // TODO: MyFaces is throwing an NPE because its NULL
+        if (webMetaDataBuildItem.getWebMetaData() != null && webMetaDataBuildItem.getWebMetaData().getContextParams() == null) {
+            webMetaDataBuildItem.getWebMetaData().setContextParams(new ArrayList<>());
         }
     }
 
@@ -225,17 +231,6 @@ class OmnifacesProcessor {
     void buildDevelopmentInitParams(BuildProducer<ServletInitParamBuildItem> initParam) {
         // Disables combined resource handler in dev mode
         initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
-    }
-
-    @BuildStep
-    void buildMyFacesFix(WebMetadataBuildItem webMetaDataBuildItem,
-            BuildProducer<ServletInitParamBuildItem> initParam) {
-        // MyFaces is throwing an NPE because its NULL
-        if (webMetaDataBuildItem.getWebMetaData() != null && webMetaDataBuildItem.getWebMetaData().getContextParams() == null) {
-            webMetaDataBuildItem.getWebMetaData().setContextParams(new ArrayList<>());
-        }
-        // bogus init param
-        initParam.produce(new ServletInitParamBuildItem("omnifaces", "true"));
     }
 
     /**
