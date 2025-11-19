@@ -92,6 +92,8 @@
         </pluginManagement>
     </build>
     <profiles>
+         <profiles>
+        <!--
         <profile>
             <id>docs</id>
             <activation>
@@ -104,18 +106,19 @@
                 <module>docs</module>
             </modules>
         </profile>
+        -->
         <profile>
-            <id>skip-docs-when-native</id>
+            <id>skip-docs</id>
             <activation>
                 <property>
-                    <name>native</name>
+                    <name>skipDocs</name>
                 </property>
             </activation>
 
             <!-- Override docs profile by redefining modules WITHOUT docs -->
             <modules>
-                <module>deployment</module>
-                <module>runtime</module>
+                <module>quarkus-primefaces</module>
+                <module>quarkus-primefaces-extensions</module>
                 <!-- keep integration-tests if that profile is active -->
             </modules>
         </profile>
