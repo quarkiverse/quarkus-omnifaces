@@ -92,7 +92,6 @@
         </pluginManagement>
     </build>
     <profiles>
-        <!--
         <profile>
             <id>docs</id>
             <activation>
@@ -101,11 +100,12 @@
                     <value>!true</value>
                 </property>
             </activation>
+            <!--
             <modules>
                 <module>docs</module>
             </modules>
+            -->
         </profile>
-        -->
         <profile>
             <id>it</id>
             <activation>
