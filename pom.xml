@@ -68,7 +68,7 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
-            <snapshots />
+            <snapshots/>
         </repository>
     </repositories>
     <build>
@@ -92,7 +92,6 @@
         </pluginManagement>
     </build>
     <profiles>
-         <profiles>
         <!--
         <profile>
             <id>docs</id>
@@ -107,21 +106,6 @@
             </modules>
         </profile>
         -->
-        <profile>
-            <id>skip-docs</id>
-            <activation>
-                <property>
-                    <name>skipDocs</name>
-                </property>
-            </activation>
-
-            <!-- Override docs profile by redefining modules WITHOUT docs -->
-            <modules>
-                <module>quarkus-primefaces</module>
-                <module>quarkus-primefaces-extensions</module>
-                <!-- keep integration-tests if that profile is active -->
-            </modules>
-        </profile>
         <profile>
             <id>it</id>
             <activation>
