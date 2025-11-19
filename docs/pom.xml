@@ -12,12 +12,13 @@
     <name>Quarkus OmniFaces - Documentation</name>
 
     <dependencies>
-        <!-- Make sure the doc is built after the other artifacts -->
+        <!-- Make sure the doc is built after the other artifacts 
         <dependency>
             <groupId>io.quarkiverse.omnifaces</groupId>
             <artifactId>quarkus-omnifaces-deployment</artifactId>
             <version>${project.version}</version>
         </dependency>
+		-->
     </dependencies>
 
     <build>

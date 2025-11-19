@@ -100,11 +100,9 @@
                     <value>!true</value>
                 </property>
             </activation>
-            <!--
             <modules>
                 <module>docs</module>
             </modules>
-            -->
         </profile>
         <profile>
             <id>it</id>
