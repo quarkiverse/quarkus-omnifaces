@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.omnifaces.util.Faces;
 
 import io.quarkus.info.runtime.spi.InfoContributor;
@@ -18,7 +19,7 @@ public class FacesInfoContributor implements InfoContributor {
 
     @Override
     public Map<String, Object> data() {
-        String facesImpl = StringUtils.removeIgnoreCase(StringUtils.removeIgnoreCase(Faces.getImplInfo(), "Core"), "Impl");
+        String facesImpl = Strings.CI.remove(Strings.CI.remove(Faces.getImplInfo(), "Core"), "Impl");
         String server = "Undertow " + Undertow.class.getPackage().getImplementationVersion();
         String omniFaces = "OmniFaces: " + StringUtils.defaultIfEmpty(
                 org.omnifaces.util.Faces.class.getPackage().getImplementationVersion(), "???");

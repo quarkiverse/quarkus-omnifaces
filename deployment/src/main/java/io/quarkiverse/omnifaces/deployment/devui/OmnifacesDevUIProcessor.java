@@ -1,7 +1,5 @@
 package io.quarkiverse.omnifaces.deployment.devui;
 
-import org.omnifaces.config.WebXml;
-
 import io.quarkus.deployment.IsDevelopment;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
@@ -17,18 +15,12 @@ import io.quarkus.omnifaces.runtime.OmniFacesJsonRPCService;
  */
 public class OmnifacesDevUIProcessor {
 
-    private static final String EXTENSION_NAME = "OmniFaces";
-
     @BuildStep(onlyIf = IsDevelopment.class)
     void createCard(BuildProducer<CardPageBuildItem> cardPageBuildItemBuildProducer) {
         final CardPageBuildItem card = new CardPageBuildItem();
 
-        final PageBuilder<ExternalPageBuilder> versionPage = Page.externalPageBuilder("Version")
-                .icon("font-awesome-solid:book")
-                .url("https://omnifaces.org/")
-                .doNotEmbed()
-                .staticLabel(WebXml.class.getPackage().getImplementationVersion());
-        card.addPage(versionPage);
+        card.addLibraryVersion("org.omnifaces", "omnifaces", "OmniFaces",
+                "https://omnifaces.org/");
 
         final PageBuilder<ExternalPageBuilder> localePage = Page.externalPageBuilder("Locale")
                 .icon("font-awesome-solid:location-dot")
@@ -43,8 +35,6 @@ public class OmnifacesDevUIProcessor {
                 .doNotEmbed()
                 .dynamicLabelJsonRPCMethodName("getSessionTimeout");
         card.addPage(sessionPage);
-
-        card.setCustomCard("qwc-omnifaces-card.js");
 
         cardPageBuildItemBuildProducer.produce(card);
     }
