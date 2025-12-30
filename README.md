@@ -77,6 +77,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://www.sven-haag.de"><img src="https://avatars.githubusercontent.com/u/1632624?v=4?s=100" width="100px;" alt="svenhaag"/><br /><sub><b>svenhaag</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=svenhaag" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/dstutz"><img src="https://avatars.githubusercontent.com/u/6010885?v=4?s=100" width="100px;" alt="David Stutzman"/><br /><sub><b>David Stutzman</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/issues?q=author%3Adstutz" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mlarue"><img src="https://avatars.githubusercontent.com/u/6511748?v=4?s=100" width="100px;" alt="Markus Lauer"/><br /><sub><b>Markus Lauer</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=mlarue" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/redddcyclone"><img src="https://avatars.githubusercontent.com/u/58712628?v=4?s=100" width="100px;" alt="Leonardo Bernardes"/><br /><sub><b>Leonardo Bernardes</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-omnifaces/commits?author=redddcyclone" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
