@@ -42,6 +42,11 @@
             <artifactId>omnifaces</artifactId>
         </dependency>
         <dependency>
+            <groupId>jakarta.security.enterprise</groupId>
+            <artifactId>jakarta.security.enterprise-api</artifactId>
+            <version>${jakarta-security.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.graalvm.sdk</groupId>
             <artifactId>graal-sdk</artifactId>
             <scope>provided</scope>
