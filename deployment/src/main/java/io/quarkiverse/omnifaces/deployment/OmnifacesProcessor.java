@@ -223,6 +223,7 @@ class OmnifacesProcessor {
                 "META-INF/omnifaces.taglib.xml",
                 "META-INF/omnifaces-functions.taglib.xml",
                 "META-INF/omnifaces-ui.taglib.xml",
+                "META-INF/omnifaces-security.taglib.xml",
                 "META-INF/web-fragment.xml",
                 "META-INF/faces-config.xml",
                 "META-INF/web.xml",
