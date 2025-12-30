@@ -36,6 +36,9 @@ import org.omnifaces.config.FacesConfigXml;
 import org.omnifaces.config.WebXml;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
 import org.omnifaces.resourcehandler.WebAppManifest;
+import org.omnifaces.security.AnonymousTagHandler;
+import org.omnifaces.security.AuthenticatedTagHandler;
+import org.omnifaces.security.AuthorizeTagHandler;
 
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.arc.deployment.AnnotationsTransformerBuildItem;
@@ -185,9 +188,25 @@ class OmnifacesProcessor {
                 ReflectiveClassBuildItem.builder(classNames.toArray(new String[0])).methods(true).serialization(true).build());
     }
 
+    @BuildStep
+    void registerSecurityTaglibForReflection(BuildProducer<ReflectiveClassBuildItem> reflectiveClass) {
+        final List<String> classes = new ArrayList<>();
+
+        classes.add(AnonymousTagHandler.class.getName());
+        classes.add(AuthenticatedTagHandler.class.getName());
+        classes.add(AuthorizeTagHandler.class.getName());
+
+        reflectiveClass.produce(ReflectiveClassBuildItem.builder(classes.toArray(new String[0]))
+                .constructors()
+                .methods()
+                .fields()
+                .serialization()
+                .build());
+    }
+
     @Record(ExecutionTime.STATIC_INIT)
     @BuildStep
-    void registerWebManifests(OmniFacesRecorder recorder, BuildProducer<UnremovableBeanBuildItem> unremovableBeans) {
+    void registerUnremovableBeans(OmniFacesRecorder recorder, BuildProducer<UnremovableBeanBuildItem> unremovableBeans) {
         // make WebManifest beans un-removable, users still have to make them beans
         // https://github.com/quarkiverse/quarkus-omnifaces/issues/72
         unremovableBeans.produce(UnremovableBeanBuildItem.beanTypes(WebAppManifest.class));
