@@ -64,7 +64,6 @@ import io.quarkus.deployment.builditem.NativeImageFeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
-import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedPackageBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeOrNativeSourcesBuild;
 import io.quarkus.info.deployment.spi.InfoBuildTimeContributorBuildItem;
 import io.quarkus.omnifaces.runtime.FacesInfoContributor;
@@ -190,17 +189,19 @@ class OmnifacesProcessor {
     }
 
     @BuildStep
-    void runtimeInitializedSecurityTaglib(CombinedIndexBuildItem combinedIndex,
-            BuildProducer<RuntimeInitializedPackageBuildItem> runtimeInitializedPackages) {
+    void registerSecurityTaglibForReflection(BuildProducer<ReflectiveClassBuildItem> reflectiveClass) {
         final List<String> classes = new ArrayList<>();
 
         classes.add(AnonymousTagHandler.class.getName());
         classes.add(AuthenticatedTagHandler.class.getName());
         classes.add(AuthorizeTagHandler.class.getName());
 
-        classes.stream()
-                .map(RuntimeInitializedPackageBuildItem::new)
-                .forEach(runtimeInitializedPackages::produce);
+        reflectiveClass.produce(ReflectiveClassBuildItem.builder(classes.toArray(new String[0]))
+                .constructors()
+                .methods()
+                .fields()
+                .serialization()
+                .build());
     }
 
     @Record(ExecutionTime.STATIC_INIT)
