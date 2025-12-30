@@ -116,6 +116,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "redddcyclone",
+      "name": "Leonardo Bernardes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/58712628?v=4",
+      "profile": "https://github.com/redddcyclone",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
