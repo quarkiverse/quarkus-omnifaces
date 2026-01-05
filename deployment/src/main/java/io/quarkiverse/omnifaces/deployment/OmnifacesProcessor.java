@@ -66,10 +66,7 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuil
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeOrNativeSourcesBuild;
 import io.quarkus.info.deployment.spi.InfoBuildTimeContributorBuildItem;
-import io.quarkus.omnifaces.runtime.FacesInfoContributor;
-import io.quarkus.omnifaces.runtime.OmniFacesFeature;
-import io.quarkus.omnifaces.runtime.OmniFacesRecorder;
-import io.quarkus.omnifaces.runtime.ParamBeanCreator;
+import io.quarkus.omnifaces.runtime.*;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
 import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
 import io.quarkus.undertow.deployment.WebMetadataBuildItem;
@@ -91,7 +88,8 @@ class OmnifacesProcessor {
             ConverterManager.class,
             SocketChannelManager.class,
             SocketPushContextProducer.class,
-            SocketChannelManager.ViewScope.class
+            SocketChannelManager.ViewScope.class,
+            SecurityContextImpl.class
     };
 
     private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {
