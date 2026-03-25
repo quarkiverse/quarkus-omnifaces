@@ -28,8 +28,11 @@ import org.omnifaces.cdi.Startup;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.cdi.converter.ConverterManager;
 import org.omnifaces.cdi.eager.EagerBeansRepository;
+import org.omnifaces.cdi.push.PushContextProducer;
 import org.omnifaces.cdi.push.SocketChannelManager;
-import org.omnifaces.cdi.push.SocketPushContextProducer;
+import org.omnifaces.cdi.push.SseChannelManager;
+import org.omnifaces.cdi.push.SseSessionManager;
+import org.omnifaces.cdi.push.SseUserManager;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
 import org.omnifaces.config.FacesConfigXml;
@@ -82,14 +85,18 @@ class OmnifacesProcessor {
     static final DotName INJECTION_POINT = DotName.createSimple(InjectionPoint.class.getName());
 
     private static final Class<?>[] BEAN_CLASSES = {
-            EagerBeansRepository.class,
-            ValidatorManager.class,
-            ViewScopeManager.class,
             ConverterManager.class,
-            SocketChannelManager.class,
-            SocketPushContextProducer.class,
+            EagerBeansRepository.class,
+            PushContextProducer.class,
+            SecurityContextImpl.class,
             SocketChannelManager.ViewScope.class,
-            SecurityContextImpl.class
+            SocketChannelManager.class,
+            SseChannelManager.ViewScope.class,
+            SseChannelManager.class,
+            SseSessionManager.class,
+            SseUserManager.class,
+            ValidatorManager.class,
+            ViewScopeManager.class
     };
 
     private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {

@@ -25,9 +25,10 @@
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
         <jakarta-security.version>4.0.0</jakarta-security.version>
-        <quarkus.version>3.27.1</quarkus.version>
+        <quarkus.version>3.27.2</quarkus.version>
         <myfaces.version>4.1.2</myfaces.version>
-        <omnifaces.version>5.1</omnifaces.version>
+        <omnifaces.version>5.2</omnifaces.version>
+		<compiler-plugin.version>3.15.0</compiler-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
