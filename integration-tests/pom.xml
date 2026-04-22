@@ -10,7 +10,7 @@
     <name>Quarkus OmniFaces - Integration Tests</name>
     <properties>
         <skipITs>true</skipITs>
-		<lombok.version>1.18.44</lombok.version>
+		<lombok.version>1.18.46</lombok.version>
     </properties>
     <dependencies>
         <dependency>
