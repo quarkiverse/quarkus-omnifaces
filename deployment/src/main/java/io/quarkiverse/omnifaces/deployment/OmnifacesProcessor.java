@@ -67,12 +67,10 @@ import io.quarkus.deployment.builditem.NativeImageFeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
-import io.quarkus.deployment.pkg.steps.NativeOrNativeSourcesBuild;
 import io.quarkus.info.deployment.spi.InfoBuildTimeContributorBuildItem;
 import io.quarkus.omnifaces.runtime.*;
 import io.quarkus.omnifaces.runtime.scopes.OmniFacesQuarkusViewScope;
 import io.quarkus.undertow.deployment.ServletInitParamBuildItem;
-import io.quarkus.undertow.deployment.WebMetadataBuildItem;
 
 class OmnifacesProcessor {
 
@@ -115,7 +113,7 @@ class OmnifacesProcessor {
         return new FeatureBuildItem(FEATURE);
     }
 
-    @BuildStep(onlyIf = NativeOrNativeSourcesBuild.class)
+    @BuildStep
     NativeImageFeatureBuildItem nativeImageFeature() {
         return new NativeImageFeatureBuildItem(OmniFacesFeature.class);
     }
@@ -159,7 +157,8 @@ class OmnifacesProcessor {
     @BuildStep
     void produceKnownCompatible(BuildProducer<KnownCompatibleBeanArchiveBuildItem> knownCompatibleProducer) {
         // GitHub #62: bean discovery mode in beans.xml
-        knownCompatibleProducer.produce(new KnownCompatibleBeanArchiveBuildItem("org.omnifaces", "omnifaces"));
+        knownCompatibleProducer.produce(KnownCompatibleBeanArchiveBuildItem.builder("org.omnifaces", "omnifaces")
+                .addReason(KnownCompatibleBeanArchiveBuildItem.Reason.BEANS_XML_ALL).build());
     }
 
     @BuildStep
@@ -212,7 +211,7 @@ class OmnifacesProcessor {
     @Record(ExecutionTime.STATIC_INIT)
     @BuildStep
     void registerUnremovableBeans(OmniFacesRecorder recorder, BuildProducer<UnremovableBeanBuildItem> unremovableBeans) {
-        // make WebManifest beans un-removable, users still have to make them beans
+        // makes WebManifest beans unremovable, users still have to make them beans
         // https://github.com/quarkiverse/quarkus-omnifaces/issues/72
         unremovableBeans.produce(UnremovableBeanBuildItem.beanTypes(WebAppManifest.class));
 
@@ -250,17 +249,6 @@ class OmnifacesProcessor {
     void buildDevelopmentInitParams(BuildProducer<ServletInitParamBuildItem> initParam) {
         // Disables combined resource handler in dev mode
         initParam.produce(new ServletInitParamBuildItem(CombinedResourceHandler.PARAM_NAME_DISABLED, "true"));
-    }
-
-    @BuildStep
-    void buildMyFacesFix(WebMetadataBuildItem webMetaDataBuildItem,
-            BuildProducer<ServletInitParamBuildItem> initParam) {
-        // MyFaces is throwing an NPE because its NULL
-        if (webMetaDataBuildItem.getWebMetaData() != null && webMetaDataBuildItem.getWebMetaData().getContextParams() == null) {
-            webMetaDataBuildItem.getWebMetaData().setContextParams(new ArrayList<>());
-        }
-        // bogus init param
-        initParam.produce(new ServletInitParamBuildItem("omnifaces", "true"));
     }
 
     /**
