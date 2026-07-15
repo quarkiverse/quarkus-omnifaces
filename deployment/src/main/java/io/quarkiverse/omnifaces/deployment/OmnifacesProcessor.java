@@ -35,6 +35,7 @@ import org.omnifaces.cdi.push.SseSessionManager;
 import org.omnifaces.cdi.push.SseUserManager;
 import org.omnifaces.cdi.validator.ValidatorManager;
 import org.omnifaces.cdi.viewscope.ViewScopeManager;
+import org.omnifaces.cdi.viewscope.ViewScopeStorageInSession;
 import org.omnifaces.config.FacesConfigXml;
 import org.omnifaces.config.WebXml;
 import org.omnifaces.resourcehandler.CombinedResourceHandler;
@@ -94,7 +95,8 @@ class OmnifacesProcessor {
             SseSessionManager.class,
             SseUserManager.class,
             ValidatorManager.class,
-            ViewScopeManager.class
+            ViewScopeManager.class,
+            ViewScopeStorageInSession.ActiveBeanStorages.class
     };
 
     private static final String[] BEAN_DEFINING_ANNOTATION_CLASSES = {
