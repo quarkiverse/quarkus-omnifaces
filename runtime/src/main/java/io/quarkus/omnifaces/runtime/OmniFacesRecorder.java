@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.myfaces.util.lang.ClassUtils;
+import org.omnifaces.cdi.Push;
+import org.omnifaces.cdi.push.PushExtension;
 
 import io.quarkus.runtime.annotations.Recorder;
 
@@ -39,6 +41,10 @@ public class OmniFacesRecorder {
 
         Set<Class<?>> classes = ANNOTATED_CLASSES.computeIfAbsent(annotation, $ -> new HashSet<>());
         classes.add(clazz);
+    }
+
+    public void activatePush(String type) {
+        PushExtension.activate(Push.Type.valueOf(type));
     }
 
 }

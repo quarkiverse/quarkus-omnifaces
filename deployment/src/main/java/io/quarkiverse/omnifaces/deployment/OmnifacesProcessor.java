@@ -12,6 +12,7 @@ import jakarta.enterprise.inject.spi.InjectionPoint;
 
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.AnnotationTarget;
+import org.jboss.jandex.AnnotationValue;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.ClassType;
 import org.jboss.jandex.DotName;
@@ -176,6 +177,17 @@ class OmnifacesProcessor {
                         }
                     });
         }
+    }
+
+    @BuildStep
+    @Record(ExecutionTime.STATIC_INIT)
+    void activatePush(OmniFacesRecorder recorder, CombinedIndexBuildItem combinedIndex) {
+        combinedIndex.getIndex()
+                .getAnnotations(DotName.createSimple(Push.class.getName()))
+                .forEach(annotation -> {
+                    AnnotationValue type = annotation.value("type");
+                    recorder.activatePush(type == null ? Push.Type.SOCKET.name() : type.asEnum());
+                });
     }
 
     @BuildStep
